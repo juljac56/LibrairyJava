@@ -13,6 +13,9 @@ module com.example.bibliothequetp {
 
     opens com.example.bibliothequetp to javafx.fxml;
     opens com.example.bibliothequetp.model to javafx.fxml;
+    opens com.example.bibliothequetp.controller to javafx.fxml;
+
     exports com.example.bibliothequetp;
     exports com.example.bibliothequetp.model;
+    exports com.example.bibliothequetp.controller;
 }
