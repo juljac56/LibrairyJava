@@ -18,8 +18,8 @@ public class home extends CycledView {
 
     MainController controller = new MainController();
 
-    public home(CycledView next,CycledView next1, Stage stage) {
-        super(next, next1, stage);
+    public home(CycledView next,CycledView next1, Stage stage, CycledView retour) {
+        super(next, next1, stage, retour);
         stage.setTitle("Home Page");
         createGUI();
     }
@@ -42,8 +42,8 @@ public class home extends CycledView {
             public void fire() {
                 callNext(next);
             }
+        };
 
-        } ;
         btn.getStyleClass().add("btn");
 
 

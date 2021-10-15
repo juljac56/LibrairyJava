@@ -7,8 +7,8 @@ import javafx.stage.Stage;
 
 public class A extends CycledView {
 
-    public A(CycledView next, Stage stage) {
-        super(next, stage);
+    public A(CycledView next, Stage stage, CycledView retour) {
+        super(next, stage, retour);
     }
 
     public void createGUI() {

@@ -16,12 +16,20 @@ public class Switch extends Application {
         //CycledView a = new A(b, primaryStage);
 
         try {
-            CycledView ReserverLivreC = new ReserverLivreC(null, primaryStage);
-            CycledView hc = new HomeClient(ReserverLivreC, primaryStage);
-            CycledView ha = new HomeAdmin(null, primaryStage);
+            CycledView historiqueEmrpuntUsager = new HistoriqueEmpruntUsager(null, primaryStage, null);
+            CycledView reserverLivreC = new ReserverLivreC(null, primaryStage, null);
+            CycledView hc = new HomeClient(reserverLivreC, historiqueEmrpuntUsager, primaryStage,null);
+            CycledView ha = new HomeAdmin(null, primaryStage,  null);
+            CycledView h = new home(ha, hc, primaryStage, null);
+
+            // gerer les retours arrieres
+            historiqueEmrpuntUsager.retour = hc;
+            reserverLivreC.retour = hc;
+            hc.retour = h;
+            ha.retour = h;
 
 
-        CycledView h = new home(ha, hc, primaryStage);
+
 
         //b.next = a;
         Scene scene = new Scene(h, 600, 850);

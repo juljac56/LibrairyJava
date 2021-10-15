@@ -13,8 +13,9 @@ public class HomeAdmin extends CycledView {
 
     MainController controller = new MainController();
 
-    public HomeAdmin(CycledView next, Stage stage) {
-        super(next, stage);
+    public HomeAdmin(CycledView next, Stage stage, CycledView retour) {
+        super(next, stage, retour);
+        createGUI();
     }
 
     public void createGUI() {
@@ -27,10 +28,18 @@ public class HomeAdmin extends CycledView {
         Text text = new Text();
         text.setText("Page Admin");
 
+        Button btnR = new Button("Retour") {
+            @Override
+            public void fire() {
+                callNext(retour);
+            }
+        };
+
         gp.add(text, 0, 0, 2, 1);
+        gp.add(btnR, 0,1);
+
 
         getChildren().add(gp);
-        //getChildren().add(btn);
 
     }
 }

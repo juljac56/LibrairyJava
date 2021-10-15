@@ -59,8 +59,8 @@ public class EmpruntController {
         return this.emprunts;
     }
 
-    public Vector<Emprunt> empruntUsager(int id){      // retourne l'historique d'emprunt pour un usager donné
-        Vector<Emprunt> liste = new Vector<Emprunt>();
+    public ObservableList<Emprunt> empruntUsager(int id){      // retourne l'historique d'emprunt pour un usager donné
+        ObservableList<Emprunt> liste = FXCollections.observableArrayList();
 
         Iterator val = this.emprunts.iterator();
         while (val.hasNext()) {

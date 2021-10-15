@@ -35,8 +35,9 @@ public class ReserverLivreC extends CycledView {
         MainController controller = new MainController();
      ObservableList<Livre> data;
 
-    public ReserverLivreC(CycledView next, Stage stage) {
-        super(next, stage);
+    public ReserverLivreC(CycledView next, Stage stage, CycledView retour) {
+        super(next, stage, retour );
+        createGUI();
     }
 
     public void createGUI() {
@@ -75,12 +76,21 @@ public class ReserverLivreC extends CycledView {
         vbox.setSpacing(5);
             TextField keyword = new TextField();
             Label search = new Label("Recherche");
+
             Button btn = new Button("reserve");
             btn.setOnAction( actionEvent -> {
                 ReserverLivreC.this.controller.reservation(table);
             });
+
+            Button btnR = new Button("Retour") {
+                @Override
+                public void fire() {
+                    callNext(retour);
+                }
+            };
+
         vbox.setPadding(new Insets(10, 0, 0, 10));
-        vbox.getChildren().addAll(label, table, keyword, btn);
+        vbox.getChildren().addAll(label, table, keyword, btn, btnR);
 
         getChildren().addAll(vbox);
 

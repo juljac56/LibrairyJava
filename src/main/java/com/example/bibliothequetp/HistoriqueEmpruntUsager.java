@@ -16,14 +16,14 @@ import javafx.scene.text.Text;
 import javafx.stage.Stage;
 
 
-public class HomeClient extends CycledView {
+public class HistoriqueEmpruntUsager extends CycledView {
 
     ObservableList<Emprunt> data;
     MainController controller = new MainController();
     public EmpruntController empruntController;
 
-    public HomeClient(CycledView next, CycledView next1, Stage stage, CycledView retour) {
-        super(next,next1, stage, retour);
+    public HistoriqueEmpruntUsager(CycledView next, Stage stage, CycledView retour) {
+        super(next, stage, retour);
         this.empruntController = new EmpruntController();
         createGUI();
     }
@@ -41,38 +41,6 @@ public class HomeClient extends CycledView {
         gp.add(text, 0, 0, 2, 1);
 
 
-        Button btn = new Button("Réserver un livre") {
-            @Override
-            public void fire() {
-                callNext(next);
-            }
-
-        };
-
-        Button btnR = new Button("Retour") {
-            @Override
-            public void fire() {
-                callNext(retour);
-            }
-        };
-
-        Button btnHistoriqueEmprunt = new Button("Historique de vos Emprunts") {
-            @Override
-            public void fire() {
-                callNext(next1);
-            }
-
-        };
-
-        btn.getStyleClass().add("btn");
-
-        gp.add(btn, 0, 0);
-        gp.add(btnHistoriqueEmprunt, 1, 0);
-        gp.add(btnR, 2,0);
-
-        getChildren().add(gp);
-
-
         //getChildren().add(btn);
 
         // Creation de la table des emprunts en cours d'un usager
@@ -81,13 +49,13 @@ public class HomeClient extends CycledView {
         titreCol.setCellValueFactory(new PropertyValueFactory<Livre, String>("titre"));
         TableColumn titreDateDeb = new TableColumn<Livre, String>("Debut Emprunt");
         titreDateDeb.setCellValueFactory(new PropertyValueFactory<Livre, String>("dateDebut"));
-        TableColumn titreDateFin = new TableColumn<Livre, String>("A rendre pour ");
+        TableColumn titreDateFin = new TableColumn<Livre, String>("Rendu le");
         titreDateFin.setCellValueFactory(new PropertyValueFactory<Livre, String>("dateFin"));
         //titreCol.setCellValueFactory(cellData -> cellData.getValue().dateProperty());
 
         try {
 
-            data = empruntController.empruntUsagerActuel(1);
+            data = empruntController.empruntUsager(1);
             table.getColumns().addAll(titreCol,titreDateDeb,titreDateFin);
             table.setItems(data);
             table.setEditable(true);
@@ -95,8 +63,18 @@ public class HomeClient extends CycledView {
         }
         catch(Exception e){e.printStackTrace();}
 
+        Button btnR = new Button("Retour") {
+            @Override
+            public void fire() {
+                callNext(retour);
+            }
+        };
+        gp.add(btnR,1,0);
+
         final VBox vbox = new VBox();
         vbox.setSpacing(5);
+
+
 
         vbox.setPadding(new Insets(10, 0, 0, 10));
         vbox.getChildren().addAll(gp, table);
