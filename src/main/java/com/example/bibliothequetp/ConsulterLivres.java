@@ -39,7 +39,7 @@ public class ConsulterLivres extends Application {
     private TableView table = new TableView();
 
     public void  start(Stage stage) throws SQLException {
-        
+        System.out.println("table" + table);
         Scene scene = new Scene(new Group());
         stage.setTitle("Consulter les livres de la bibliotheque");
         stage.setWidth(800);

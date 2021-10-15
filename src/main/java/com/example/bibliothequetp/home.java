@@ -21,6 +21,7 @@ public class home extends CycledView {
     public home(CycledView next,CycledView next1, Stage stage) {
         super(next, next1, stage);
         stage.setTitle("Home Page");
+        createGUI();
     }
 
     public void createGUI() {

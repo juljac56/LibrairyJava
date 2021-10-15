@@ -135,6 +135,7 @@ public class Livre {
 
      */
 
+    public int getId(){return this.id;}
     public int getAnnee(){
         return this.annee;
     }

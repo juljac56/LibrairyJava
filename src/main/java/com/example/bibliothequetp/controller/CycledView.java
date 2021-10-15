@@ -1,5 +1,6 @@
 package com.example.bibliothequetp.controller;
 
+import javafx.scene.control.TableView;
 import javafx.scene.layout.StackPane;
 import javafx.stage.Stage;
 
@@ -7,14 +8,16 @@ public abstract class CycledView extends StackPane { // Choose whatever is most 
     public CycledView(CycledView next, Stage stage) {
         this.next = next;
         this.stage = stage;
-        createGUI();
+        this.table = new TableView();
+
     }
 
     public CycledView(CycledView next, CycledView next1, Stage stage) {
         this.next = next;
         this.next1 = next1;
         this.stage = stage;
-        createGUI();
+        this.table = new TableView();
+
     }
 
     public abstract void createGUI();
@@ -26,4 +29,5 @@ public abstract class CycledView extends StackPane { // Choose whatever is most 
     public CycledView next;
     public CycledView next1;
     public Stage stage;
+    public TableView table;
 }

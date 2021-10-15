@@ -1,12 +1,13 @@
 package com.example.bibliothequetp.controller;
 
-import com.example.bibliothequetp.ConsulterLivres;
-import javafx.scene.Scene;
-import javafx.stage.Stage;
+import com.example.bibliothequetp.model.Livre;
+import javafx.scene.control.TableView;
 
 import java.sql.SQLException;
 
 public class MainController {
+
+    TableView table ;
 
     public void Test(){
         System.out.println("Hello World ! ");
@@ -19,5 +20,10 @@ public class MainController {
          */
 
         //getScene().setRoot(next);
+    }
+
+    public void reservation(TableView table){
+        Livre l = (Livre) table.getSelectionModel().getSelectedItem();
+        System.out.println(l.getTitre());
     }
 }

@@ -14,13 +14,17 @@ public class Switch extends Application {
 
         //CycledView b = new B(null, primaryStage);
         //CycledView a = new A(b, primaryStage);
-        CycledView hc = new HomeClient(null, primaryStage);
-        CycledView ha = new HomeAdmin(null, primaryStage);
+
+        try {
+            CycledView ReserverLivreC = new ReserverLivreC(null, primaryStage);
+            CycledView hc = new HomeClient(ReserverLivreC, primaryStage);
+            CycledView ha = new HomeAdmin(null, primaryStage);
+
 
         CycledView h = new home(ha, hc, primaryStage);
 
         //b.next = a;
-        Scene scene = new Scene(h, 300, 250);
+        Scene scene = new Scene(h, 600, 850);
 
         primaryStage.setTitle("Logiciel de gestion de Bibliothèque");
 
@@ -29,6 +33,10 @@ public class Switch extends Application {
 
         primaryStage.setScene(scene);
         primaryStage.show();
+        }
+        catch (Exception e){
+            e.printStackTrace();
+        }
     }
 
     /**

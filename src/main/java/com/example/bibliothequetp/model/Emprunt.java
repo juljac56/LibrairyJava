@@ -39,5 +39,13 @@ public class Emprunt {    // un emprunt dans l'interface c'est  : titre, dateDeb
         }
     }
 
+    public String getTitre(){return this.titre;}
+    public void setTitre(String titre) {
+        this.titre = titre;
+    }
+
+    public String getDateFin(){return this.dateFin;}
+    public String getDateDebut(){return this.dateDebut;}
+
 }
 
