@@ -153,7 +153,7 @@ public class ConsulterCategories extends CycledView {
                 list.add(livre);
             }
 
-
+            conn.close();
         }
         catch(Exception e){System.out.println(e);}
 

@@ -43,6 +43,7 @@ public class ListeRouge {
                 this.prenom = u.prenom;
 
             }
+            conn.close();
         }
 
         catch(Exception e){System.out.println(e);}
@@ -63,6 +64,7 @@ public class ListeRouge {
                 ListeRouge LR = new ListeRouge(idLr);
                 liste.add(LR);
             }
+            conn.close();
         }
         catch(Exception e){System.out.println(e);}
         return liste;
@@ -82,6 +84,7 @@ public class ListeRouge {
                 ListeRouge LR = new ListeRouge(idLr);
                 liste.add(LR);
             }
+            conn.close();
         }
         catch(Exception e){System.out.println(e);}
         return liste;

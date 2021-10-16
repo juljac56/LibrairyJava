@@ -21,10 +21,10 @@ public class Switch extends Application {
         try {
             Vector<CycledView> vHA = new Vector<CycledView>();
 
-
+            CycledView creerUsager = new CreerUsager(null, primaryStage, null);
             CycledView consulterListeRouge = new ConsulterListeRouge(null, primaryStage, null);
             CycledView consulterCategories = new ConsulterCategories (null, primaryStage, null);
-            CycledView consulterClients = new ConsulterClients(null, primaryStage, null);
+            CycledView consulterClients = new ConsulterClients(creerUsager, primaryStage, null);
             CycledView historiqueEmrpuntUsager = new HistoriqueEmpruntUsager(null, primaryStage, null);
             CycledView reserverLivreC = new ReserverLivreC(null, primaryStage, null);
 
@@ -40,6 +40,8 @@ public class Switch extends Application {
             reserverLivreC.retour = hc;
             hc.retour = h;
             ha.retour = h;
+            creerUsager.retour = consulterClients;
+            creerUsager.next = ha;
             consulterClients.retour = ha;
             consulterCategories.retour = ha;
             consulterListeRouge.retour = ha;

@@ -83,6 +83,8 @@ public class Livre {
             }
         }
 
+        conn.close();
+
     }
 
 

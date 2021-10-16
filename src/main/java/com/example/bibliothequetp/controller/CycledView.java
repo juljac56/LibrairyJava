@@ -1,5 +1,8 @@
 package com.example.bibliothequetp.controller;
 
+import com.example.bibliothequetp.model.Usager;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.scene.control.TableView;
 import javafx.scene.layout.StackPane;
 import javafx.stage.Stage;
@@ -12,6 +15,7 @@ public abstract class CycledView extends StackPane { // Choose whatever is most 
         this.stage = stage;
         this.table = new TableView();
         this.retour = retour;
+        this.data = FXCollections.observableArrayList();
 
     }
 
@@ -21,12 +25,12 @@ public abstract class CycledView extends StackPane { // Choose whatever is most 
         this.stage = stage;
         this.table = new TableView();
         this.retour = retour;
+        this.data = FXCollections.observableArrayList();
 
     }
 
     public CycledView(Vector<CycledView> vha, Stage stage, CycledView retour) {
         this.stage = stage;
-        this.table = new TableView();
         this.retour = retour;
         this.vha = vha;
 
@@ -44,4 +48,5 @@ public abstract class CycledView extends StackPane { // Choose whatever is most 
     public TableView table;
     public CycledView retour;
     public Vector<CycledView> vha;
+    public ObservableList<Usager> data;
 }

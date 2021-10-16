@@ -53,7 +53,7 @@ public class Usager {
         ResultSet rs2 = ps2.executeQuery();
         this.nbFoisListeRouge = rs2.getInt(1);
 
-
+        conn.close();
     }
 
     public String getPrenom() {

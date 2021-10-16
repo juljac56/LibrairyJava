@@ -29,6 +29,7 @@ public class CategorieController {
                 Categorie cat = new Categorie(id);
                 categories.add(cat);
             }
+            conn.close();
         } catch (Exception e) {
             System.out.println(e);
         }

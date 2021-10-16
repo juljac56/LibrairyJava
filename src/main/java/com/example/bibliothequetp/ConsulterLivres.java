@@ -108,7 +108,7 @@ public class ConsulterLivres extends Application {
                 //System.out.println(data);
             }
 
-
+            conn.close();
         }
         catch(Exception e){System.out.println(e);}
 

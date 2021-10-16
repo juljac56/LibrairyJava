@@ -24,6 +24,7 @@ public class Categorie {  // une catégorie c'est un numéro (id), un nb max d'e
             ResultSet rs0 = ps0.executeQuery();
             this.dureeMax = rs0.getInt(1);
             this.nbMax = rs0.getInt(2);
+            conn.close();
         }
 
         catch(Exception e){System.out.println(e);}

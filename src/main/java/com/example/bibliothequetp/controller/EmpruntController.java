@@ -34,6 +34,7 @@ public class EmpruntController {
                 Emprunt emprunt = new Emprunt(dateDebut, dateFin, idSupport, idUsager);
                 emprunts.add(emprunt);
             }
+            conn.close();
         } catch (Exception e) {
             System.out.println(e);
         }

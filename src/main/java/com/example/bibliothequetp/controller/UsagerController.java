@@ -33,6 +33,7 @@ public class UsagerController {
                 Usager usager = new Usager(idUsager);
                 usagers.add(usager);
             }
+            conn.close();
         } catch (Exception e) {
             System.out.println(e);
         }

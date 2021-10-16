@@ -35,17 +35,17 @@ import static java.lang.String.valueOf;
 public class ConsulterClients extends CycledView {
 
     UsagerController controller = new UsagerController();
-    ObservableList<Usager> data;
+    //ObservableList<Usager> data;
+    TableView table;
 
     public ConsulterClients(CycledView next, Stage stage, CycledView retour) {
         super(next, stage, retour );
+        this.table = new TableView();
         createGUI();
     }
 
     public void createGUI() {
-        System.out.println("table" + this.table);
-
-        GridPane gp = new GridPane();
+                GridPane gp = new GridPane();
         gp.setPadding(new Insets(20));
         gp.setHgap(25);
         gp.setVgap(15);
@@ -93,8 +93,15 @@ public class ConsulterClients extends CycledView {
                 }
             };
 
+            Button btnCreerUsage = new Button("Créer un Client") {
+                @Override
+                public void fire() {
+                    callNext(next);
+                }
+            };
+
             vbox.setPadding(new Insets(10, 0, 0, 10));
-            vbox.getChildren().addAll(label, table, keyword, btn, btnR);
+            vbox.getChildren().addAll(label, table, keyword, btn, btnR, btnCreerUsage);
 
             getChildren().addAll(vbox);
 
@@ -160,7 +167,7 @@ public class ConsulterClients extends CycledView {
                 list.add(livre);
             }
 
-
+            conn.close();
         }
         catch(Exception e){System.out.println(e);}
 

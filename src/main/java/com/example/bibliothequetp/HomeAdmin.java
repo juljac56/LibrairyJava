@@ -61,6 +61,8 @@ public class HomeAdmin extends CycledView {
 
         };
 
+
+
         gp.add(text, 0, 0, 2, 1);
         gp.add(btnR, 0,1);
         gp.add(btn, 0,2);
