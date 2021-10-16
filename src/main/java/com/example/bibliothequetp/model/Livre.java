@@ -30,9 +30,6 @@ public class Livre {
         ResultSet rs0 = ps0.executeQuery();
 
         this.ISBN = rs0.getInt(1);
-
-
-
         this.ISBN = ISBN;
         this.auteur = new Vector<String>();
 

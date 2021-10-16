@@ -55,4 +55,24 @@ public class Usager {
 
 
     }
+
+    public String getPrenom() {
+        return this.prenom;
+    }
+
+    public String getMail() {
+        return mail;
+    }
+
+    public String getNom() {
+        return nom;
+    }
+
+    public int getCategorie() {
+        return categorie;
+    }
+
+    public int getNbFoisListeRouge() {
+        return nbFoisListeRouge;
+    }
 }

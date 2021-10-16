@@ -4,6 +4,8 @@ import javafx.scene.control.TableView;
 import javafx.scene.layout.StackPane;
 import javafx.stage.Stage;
 
+import java.util.Vector;
+
 public abstract class CycledView extends StackPane { // Choose whatever is most appropriate class
     public CycledView(CycledView next, Stage stage, CycledView retour) {
         this.next = next;
@@ -22,6 +24,14 @@ public abstract class CycledView extends StackPane { // Choose whatever is most 
 
     }
 
+    public CycledView(Vector<CycledView> vha, Stage stage, CycledView retour) {
+        this.stage = stage;
+        this.table = new TableView();
+        this.retour = retour;
+        this.vha = vha;
+
+    }
+
     public abstract void createGUI();
 
     protected void callNext(CycledView n) {
@@ -33,4 +43,5 @@ public abstract class CycledView extends StackPane { // Choose whatever is most 
     public Stage stage;
     public TableView table;
     public CycledView retour;
+    public Vector<CycledView> vha;
 }

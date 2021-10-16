@@ -7,6 +7,9 @@ import javafx.scene.control.Button;
 import javafx.scene.layout.StackPane;
 import javafx.stage.Stage;
 
+import java.util.List;
+import java.util.Vector;
+
 public class Switch extends Application {
 
     @Override
@@ -16,10 +19,20 @@ public class Switch extends Application {
         //CycledView a = new A(b, primaryStage);
 
         try {
+            Vector<CycledView> vHA = new Vector<CycledView>();
+
+
+            CycledView consulterListeRouge = new ConsulterListeRouge(null, primaryStage, null);
+            CycledView consulterCategories = new ConsulterCategories (null, primaryStage, null);
+            CycledView consulterClients = new ConsulterClients(null, primaryStage, null);
             CycledView historiqueEmrpuntUsager = new HistoriqueEmpruntUsager(null, primaryStage, null);
             CycledView reserverLivreC = new ReserverLivreC(null, primaryStage, null);
+
             CycledView hc = new HomeClient(reserverLivreC, historiqueEmrpuntUsager, primaryStage,null);
-            CycledView ha = new HomeAdmin(null, primaryStage,  null);
+
+            vHA.addAll(List.of(consulterClients, consulterCategories, consulterListeRouge));
+            CycledView ha = new HomeAdmin(vHA, primaryStage, null);
+
             CycledView h = new home(ha, hc, primaryStage, null);
 
             // gerer les retours arrieres
@@ -27,12 +40,16 @@ public class Switch extends Application {
             reserverLivreC.retour = hc;
             hc.retour = h;
             ha.retour = h;
+            consulterClients.retour = ha;
+            consulterCategories.retour = ha;
+            consulterListeRouge.retour = ha;
+
 
 
 
 
         //b.next = a;
-        Scene scene = new Scene(h, 600, 850);
+        Scene scene = new Scene(h, 600, 550);
 
         primaryStage.setTitle("Logiciel de gestion de Bibliothèque");
 
