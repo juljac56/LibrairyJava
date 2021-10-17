@@ -1,5 +1,6 @@
 package com.example.bibliothequetp;
 
+import com.example.bibliothequetp.controller.CreationController;
 import com.example.bibliothequetp.controller.CycledView;
 import com.example.bibliothequetp.controller.MainController;
 import com.example.bibliothequetp.model.DataBase;
@@ -30,15 +31,17 @@ import java.util.Vector;
 import static java.lang.String.valueOf;
 
 
-public class ReserverLivreC extends CycledView {
+public class ReserverLivreA extends CycledView {
 
-        MainController controller = new MainController();
-     ObservableList<Livre> data;
-     TableView table = new TableView();
+    MainController controller = new MainController();
+    CreationController creaController = new CreationController();
 
-    public ReserverLivreC(Stage stage) {
+    ObservableList<Livre> data;
+    TableView table = new TableView();
+
+    public ReserverLivreA(Stage stage) {
         super(stage);
-        this.retour = new HomeClient(stage);
+
         createGUI();
     }
 
@@ -71,64 +74,79 @@ public class ReserverLivreC extends CycledView {
 
             data = getLivreList();
 
-        table.getColumns().addAll(titreCol, anneeCol, auteurCol, editeurCol);
+            table.getColumns().addAll(titreCol, anneeCol, auteurCol, editeurCol);
 
-        final VBox vbox = new VBox();
-        vbox.setSpacing(5);
+            final VBox vbox = new VBox();
+            vbox.setSpacing(5);
             TextField keyword = new TextField();
             Label search = new Label("Recherche");
 
             Button btn = new Button("reserve");
             btn.setOnAction( actionEvent -> {
-                ReserverLivreC.this.controller.reservation(table);
+                ReserverLivreA.this.controller.reservation(table);
             });
 
             Button btnR = new Button("Retour") {
                 @Override
                 public void fire() {
-                    callNext(retour);
+                    goAdminPage(stage);
                 }
             };
 
-        vbox.setPadding(new Insets(10, 0, 0, 10));
-        vbox.getChildren().addAll(label, table, keyword, btn, btnR);
-
-        getChildren().addAll(vbox);
-
-        FilteredList<Livre> filteredData = new FilteredList<Livre>(data, b -> true);
-
-
-        keyword.textProperty().addListener((observable, oldValue, newValue) -> {
-            filteredData.setPredicate(livre -> {
-                if (newValue.isBlank() || newValue.isBlank() || newValue == null) {
-                    return true;
+            Button btnSupprimerLivre = new Button("Supprimer Livre") {
+                @Override
+                public void fire() {
+                    creaController.supprimerlivre(table);
+                    goReserverLivreAPage(stage);
                 }
-                String searchKeyword = newValue.toLowerCase();
+            };
 
-                if (livre.getTitre().toLowerCase().indexOf(searchKeyword) != -1) {
-                    return true;
-                } else {
-                    return false;
+            Button btnCreerLivre = new Button("Créer Livre") {
+                @Override
+                public void fire() {
+                    goCreerLivrePage(stage);
                 }
-                //else if(){}
+            };
+
+            vbox.setPadding(new Insets(10, 0, 0, 10));
+            vbox.getChildren().addAll(label, table, keyword, btn, btnR, btnCreerLivre,btnSupprimerLivre);
+
+            getChildren().addAll(vbox);
+
+            FilteredList<Livre> filteredData = new FilteredList<Livre>(data, b -> true);
 
 
+            keyword.textProperty().addListener((observable, oldValue, newValue) -> {
+                filteredData.setPredicate(livre -> {
+                    if (newValue.isBlank() || newValue.isBlank() || newValue == null) {
+                        return true;
+                    }
+                    String searchKeyword = newValue.toLowerCase();
+
+                    if (livre.getTitre().toLowerCase().indexOf(searchKeyword) != -1) {
+                        return true;
+                    } else {
+                        return false;
+                    }
+                    //else if(){}
+
+
+                });
             });
-        });
 
-        SortedList<Livre> sortedData = new SortedList<>(filteredData);
-        sortedData.comparatorProperty().bind(table.comparatorProperty());
+            SortedList<Livre> sortedData = new SortedList<>(filteredData);
+            sortedData.comparatorProperty().bind(table.comparatorProperty());
 
             table.setItems(sortedData);
             table.setEditable(true);
 
 
-    }
+        }
 
         catch (Exception e) {
             e.printStackTrace();
 
-    }}
+        }}
 
     public ObservableList<Livre> getLivreList() {
 

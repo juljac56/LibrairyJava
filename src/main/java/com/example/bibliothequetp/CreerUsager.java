@@ -19,16 +19,16 @@ public class CreerUsager extends CycledView {
 
     CreationController controller = new CreationController();
     UsagerController controllerUsager = new UsagerController();
-    CycledView consulterClients;
 
-    public CreerUsager(CycledView next, Stage stage, CycledView retour) {
-        super(next, stage, retour);
+    public CreerUsager(Stage stage) {
+        super(stage);
         createGUI();
+
     }
 
     public void createGUI() {
 
-        consulterClients = new ConsulterClients(this, this.stage, next);
+
 
         GridPane gp= new GridPane();
         gp.setPadding(new Insets(20));
@@ -44,7 +44,7 @@ public class CreerUsager extends CycledView {
         Button btnR = new Button("Retour") {
             @Override
             public void fire() {
-                callNext(consulterClients);
+                goGererClientPage(stage);
             }
         };
 
@@ -70,8 +70,6 @@ public class CreerUsager extends CycledView {
                 tfPrenom.setText("");
                 tfMail.setText("");
                 tfCat.setText("");
-                retour.data = controllerUsager.banqueUsagers();
-                consulterClients = new ConsulterClients(this, this.stage, next);
             }
             else{gp.add(creationFail,0,5);}
         });

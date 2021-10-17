@@ -35,11 +35,11 @@ import static java.lang.String.valueOf;
 public class ConsulterClients extends CycledView {
 
     UsagerController controller = new UsagerController();
-    //ObservableList<Usager> data;
+    ObservableList<Usager> data;
     TableView table;
 
-    public ConsulterClients(CycledView next, Stage stage, CycledView retour) {
-        super(next, stage, retour );
+    public ConsulterClients(Stage stage) {
+        super(stage);
         this.table = new TableView();
         createGUI();
     }
@@ -81,22 +81,22 @@ public class ConsulterClients extends CycledView {
             TextField keyword = new TextField();
             Label search = new Label("Recherche");
 
-            Button btn = new Button("Modifier");
+            Button btn = new Button("Supprimer");
             btn.setOnAction(actionEvent -> {
-                ConsulterClients.this.controller.clientsDetails(table);
+                ConsulterClients.this.controller.supprimerClient(table);
             });
 
             Button btnR = new Button("Retour") {
                 @Override
                 public void fire() {
-                    callNext(retour);
+                    goAdminPage(stage);
                 }
             };
 
             Button btnCreerUsage = new Button("Créer un Client") {
                 @Override
                 public void fire() {
-                    callNext(next);
+                    goCreerClientPage(stage);
                 }
             };
 

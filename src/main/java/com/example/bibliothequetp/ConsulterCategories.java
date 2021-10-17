@@ -38,9 +38,10 @@ public class ConsulterCategories extends CycledView {
 
     CategorieController controller = new CategorieController();
     ObservableList<Categorie> data;
+    TableView table = new TableView();
 
-    public ConsulterCategories(CycledView next, Stage stage, CycledView retour) {
-        super(next, stage, retour );
+    public ConsulterCategories(Stage stage) {
+        super(stage);
         createGUI();
     }
 
@@ -76,13 +77,14 @@ public class ConsulterCategories extends CycledView {
 
             Button btn = new Button("Modifier");
             btn.setOnAction(actionEvent -> {
-                ConsulterCategories.this.controller.catDetails(table);
+                Vector<Integer> v = controller.debutModifierCat(table);
+                goModifierCat(stage,v.get(0),v.get(1), v.get(2));
             });
 
             Button btnR = new Button("Retour") {
                 @Override
                 public void fire() {
-                    callNext(retour);
+                    goAdminPage(stage);
                 }
             };
 
@@ -90,7 +92,6 @@ public class ConsulterCategories extends CycledView {
             vbox.getChildren().addAll(label, table, keyword, btn, btnR);
 
             getChildren().addAll(vbox);
-
             FilteredList<Categorie> filteredData = new FilteredList<Categorie>(data, b -> true);
 
 
@@ -101,7 +102,7 @@ public class ConsulterCategories extends CycledView {
                     }
                     String searchKeyword = newValue.toLowerCase();
 
-                    if (cat.getIdCategorie().toLowerCase().indexOf(searchKeyword) != -1) {
+                    if (String.valueOf(cat.getIdCategorie()).toLowerCase().indexOf(searchKeyword) != -1) {
                         return true;
                     } else {
                         return false;
@@ -122,42 +123,6 @@ public class ConsulterCategories extends CycledView {
         } catch (Exception e) {
             e.printStackTrace();
         }
-
-        Button btnR = new Button("Retour") {
-            @Override
-            public void fire() {
-                callNext(retour);
-            }
-        };
     }
 
-    public ObservableList<Livre> getLivreList() {
-
-        ObservableList<Livre> list = FXCollections.observableArrayList();
-
-        try {
-            Livre l = new Livre(1);
-            System.out.println("new titre" + l.titre);
-
-            Connection conn = DataBase.getConnection();
-            PreparedStatement ps = conn.prepareStatement("select * from SUPPORT");
-            ResultSet rs = ps.executeQuery();
-
-            while (rs.next()){
-                Vector<String> ligne = new Vector<String>();
-                Livre livre = new Livre(rs.getInt(1));
-                //ligne.add(livre.titre);
-                ligne.add(valueOf(livre.annee));
-                ligne.add(livre.listAuteur());
-                ligne.add(livre.editeur);
-                list.add(livre);
-            }
-
-            conn.close();
-        }
-        catch(Exception e){System.out.println(e);}
-
-        return list;
-
-    }
 }

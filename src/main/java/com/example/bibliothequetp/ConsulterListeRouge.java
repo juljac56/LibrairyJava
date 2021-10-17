@@ -32,9 +32,10 @@ public class ConsulterListeRouge extends CycledView {
 
     ListeRougeController controller = new ListeRougeController();
     ObservableList<ListeRouge> data;
+    TableView table = new TableView();
 
-    public ConsulterListeRouge(CycledView next, Stage stage, CycledView retour) {
-        super(next, stage, retour );
+    public ConsulterListeRouge(Stage stage) {
+        super(stage);
         createGUI();
     }
 
@@ -81,7 +82,7 @@ public class ConsulterListeRouge extends CycledView {
             Button btnR = new Button("Retour") {
                 @Override
                 public void fire() {
-                    callNext(retour);
+                    goAdminPage(stage);
                 }
             };
 
@@ -122,12 +123,6 @@ public class ConsulterListeRouge extends CycledView {
             e.printStackTrace();
         }
 
-        Button btnR = new Button("Retour") {
-            @Override
-            public void fire() {
-                callNext(retour);
-            }
-        };
     }
 
 }

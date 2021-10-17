@@ -15,8 +15,8 @@ public class HomeAdmin extends CycledView {
 
     MainController controller = new MainController();
 
-    public HomeAdmin(Vector<CycledView> vha, Stage stage, CycledView retour) {
-        super(vha, stage, retour);
+    public HomeAdmin(Stage stage) {
+        super(stage);
         createGUI();
     }
 
@@ -33,14 +33,16 @@ public class HomeAdmin extends CycledView {
         Button btnR = new Button("Retour") {
             @Override
             public void fire() {
-                callNext(retour);
+                goHomePage(stage);
+
             }
         };
 
         Button btn = new Button("Gérer les clients") {
             @Override
             public void fire() {
-                callNext(vha.get(0));
+                goGererClientPage(stage);
+
             }
 
         };
@@ -48,7 +50,7 @@ public class HomeAdmin extends CycledView {
         Button btnCat = new Button("Gérer les Catégories") {
             @Override
             public void fire() {
-                callNext(vha.get(1));
+                goCatPage(stage);
             }
 
         };
@@ -56,9 +58,15 @@ public class HomeAdmin extends CycledView {
         Button btnLR = new Button("Gérer la liste rouge") {
             @Override
             public void fire() {
-                callNext(vha.get(2));
+                goLRPage(stage);
             }
+        };
 
+        Button btnLivre = new Button("Gérer les livres") {
+            @Override
+            public void fire() {
+                goReserverLivreAPage(stage);
+            }
         };
 
 
@@ -68,6 +76,7 @@ public class HomeAdmin extends CycledView {
         gp.add(btn, 0,2);
         gp.add(btnCat,0,3);
         gp.add(btnLR,0,4);
+        gp.add(btnLivre,0,5);
 
         getChildren().add(gp);
 

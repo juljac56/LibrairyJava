@@ -9,6 +9,7 @@ import javafx.collections.ObservableList;
 import javafx.geometry.Insets;
 import javafx.scene.control.Button;
 import javafx.scene.control.TableColumn;
+import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.VBox;
@@ -21,10 +22,12 @@ public class HistoriqueEmpruntUsager extends CycledView {
     ObservableList<Emprunt> data;
     MainController controller = new MainController();
     public EmpruntController empruntController;
+    TableView table = new TableView();
 
-    public HistoriqueEmpruntUsager(CycledView next, Stage stage, CycledView retour) {
-        super(next, stage, retour);
+    public HistoriqueEmpruntUsager(Stage stage) {
+        super(stage);
         this.empruntController = new EmpruntController();
+        this.retour = new HomeAdmin(stage);
         createGUI();
     }
 

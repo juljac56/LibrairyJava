@@ -59,6 +59,13 @@ public class UsagerController {
         System.out.println(u.nom);
     }
 
+    public void supprimerClient(TableView table){
+        Usager u = (Usager) table.getSelectionModel().getSelectedItem();
+        int succes = 0;
+        succes = u.supprimer();
+
+    }
+
 
 }
 

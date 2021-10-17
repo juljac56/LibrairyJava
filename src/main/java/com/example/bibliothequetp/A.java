@@ -7,17 +7,19 @@ import javafx.stage.Stage;
 
 public class A extends CycledView {
 
-    public A(CycledView next, Stage stage, CycledView retour) {
-        super(next, stage, retour);
+    public A(Stage stage) {
+        super(stage);
     }
 
     public void createGUI() {
         getChildren().add(new Button("I'm A") {
-            @Override
+            /*@Override
             public void fire() {
                 System.out.println("GOOO B");
                 callNext(next);
-            }
+                 }
+             */
+
 
         });
     }

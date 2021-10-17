@@ -30,9 +30,8 @@ public class Categorie {  // une catégorie c'est un numéro (id), un nb max d'e
         catch(Exception e){System.out.println(e);}
         }
 
-    public String getIdCategorie() {
-        String alert = "transformer int en string";
-        return alert;
+    public int getIdCategorie() {
+        return idCategorie;
     }
 
     public int getDureeMax() {

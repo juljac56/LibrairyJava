@@ -7,6 +7,7 @@ import java.util.Vector;
 
 public class Usager {
 
+    public Integer idUsager;
     public String nom;
     public String prenom;
     public String mail;
@@ -15,6 +16,7 @@ public class Usager {
     public int nbFoisListeRouge;
 
     public Usager(int id) throws SQLException {
+        this.idUsager = id;
 
         Connection conn = DataBase.getConnection();
         PreparedStatement ps = conn.prepareStatement("select * from  USAGER WHERE `ID USAGER` = ?");
@@ -55,6 +57,24 @@ public class Usager {
 
         conn.close();
     }
+
+    public int supprimer(){
+        int succes  = 0;
+
+        try {
+            Connection conn = DataBase.getConnection();
+            PreparedStatement ps0 = conn.prepareStatement("delete from Usager where `ID USAGER`=?");
+            ps0.setInt(1,this.idUsager);
+
+            ResultSet rs0 = ps0.executeQuery();
+
+            conn.close();
+        }
+
+        catch(Exception e){System.out.println(e);}
+
+        return succes;
+    };
 
     public String getPrenom() {
         return this.prenom;

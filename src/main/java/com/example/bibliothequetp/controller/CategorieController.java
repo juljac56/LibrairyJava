@@ -51,4 +51,39 @@ public class CategorieController {
         System.out.println(c.idCategorie);
     }
 
+    public Vector<Integer> debutModifierCat(TableView table){
+        Vector<Integer> v = new Vector<>();
+        Categorie c = (Categorie) table.getSelectionModel().getSelectedItem();
+        int id = c.idCategorie;
+        int duree = c.dureeMax;
+        int nb = c.nbMax;
+        v.add(id);
+        v.add(nb);
+        v.add(duree);
+
+        return v;
+    }
+
+    public int modifierCat(int id, int duree, int nb){
+        int succes = 0;
+        try {
+            Connection conn = DataBase.getConnection();
+            PreparedStatement ps = conn.prepareStatement("UPDATE CATEGORIE SET DUREE = ?,`NB MAX`= ? WHERE `ID CATEGORIE` = ?;");
+            System.out.println("ok1");
+            ps.setInt(1,duree);
+            System.out.println("ok2");
+            ps.setInt( 2, nb);
+            System.out.println("ok3");
+            ps.setInt( 3, id);
+            System.out.println("ok4");
+            succes = ps.executeUpdate();
+            System.out.println("succes "+succes);
+
+            conn.close();
+
+        } catch (Exception e) {
+            System.out.println(e);
+        }
+        return succes;
+    }
 }

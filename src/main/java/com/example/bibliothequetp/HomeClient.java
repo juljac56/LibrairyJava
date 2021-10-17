@@ -8,7 +8,9 @@ import com.example.bibliothequetp.model.Livre;
 import javafx.collections.ObservableList;
 import javafx.geometry.Insets;
 import javafx.scene.control.Button;
+import javafx.scene.control.Tab;
 import javafx.scene.control.TableColumn;
+import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.VBox;
@@ -21,10 +23,17 @@ public class HomeClient extends CycledView {
     ObservableList<Emprunt> data;
     MainController controller = new MainController();
     public EmpruntController empruntController;
+    CycledView gererResa;
+    CycledView histo;
+    TableView table;
 
-    public HomeClient(CycledView next, CycledView next1, Stage stage, CycledView retour) {
-        super(next,next1, stage, retour);
+    public HomeClient(Stage stage) {
+        super(stage);
         this.empruntController = new EmpruntController();
+        this.gererResa = new ReserverLivreC(stage);
+        this.histo = new HistoriqueEmpruntUsager(stage);
+        this.retour = new home(stage);
+
         createGUI();
     }
 
@@ -44,7 +53,7 @@ public class HomeClient extends CycledView {
         Button btn = new Button("Réserver un livre") {
             @Override
             public void fire() {
-                callNext(next);
+                callNext(gererResa);
             }
 
         };
@@ -59,7 +68,7 @@ public class HomeClient extends CycledView {
         Button btnHistoriqueEmprunt = new Button("Historique de vos Emprunts") {
             @Override
             public void fire() {
-                callNext(next1);
+                callNext(histo);
             }
 
         };

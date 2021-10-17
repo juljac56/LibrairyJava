@@ -2,6 +2,7 @@ package com.example.bibliothequetp;
 
 import com.example.bibliothequetp.controller.CycledView;
 import com.example.bibliothequetp.controller.MainController;
+import com.example.bibliothequetp.controller.SwitchController;
 import javafx.application.Application;
 import javafx.geometry.Insets;
 import javafx.scene.Scene;
@@ -18,9 +19,8 @@ public class home extends CycledView {
 
     MainController controller = new MainController();
 
-    public home(CycledView next,CycledView next1, Stage stage, CycledView retour) {
-        super(next, next1, stage, retour);
-        stage.setTitle("Home Page");
+    public home( Stage stage) {
+        super(stage);
         createGUI();
     }
 
@@ -40,19 +40,17 @@ public class home extends CycledView {
         Button btn = new Button("Connexion Admin") {
             @Override
             public void fire() {
-                callNext(next);
+                goAdminPage(stage);
             }
         };
 
         btn.getStyleClass().add("btn");
-
-
         gp.add(btn, 0, 1 );
 
         Button btn1 = new Button("Connexion Client"){
             @Override
             public void fire() {
-                callNext(next1);
+                goClientPage(stage);
             }
         } ;
         btn1.getStyleClass().add("btn");
