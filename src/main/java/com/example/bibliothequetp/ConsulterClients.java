@@ -1,5 +1,6 @@
 package com.example.bibliothequetp;
 
+import com.example.bibliothequetp.controller.CreationController;
 import com.example.bibliothequetp.controller.CycledView;
 import com.example.bibliothequetp.controller.MainController;
 import com.example.bibliothequetp.controller.UsagerController;
@@ -35,6 +36,7 @@ import static java.lang.String.valueOf;
 public class ConsulterClients extends CycledView {
 
     UsagerController controller = new UsagerController();
+    CreationController creaController = new CreationController();
     ObservableList<Usager> data;
     TableView table;
 
@@ -100,8 +102,16 @@ public class ConsulterClients extends CycledView {
                 }
             };
 
+            Button btnSupprimerClient = new Button("Supprimer Client") {
+                @Override
+                public void fire() {
+                    creaController.supprimerClient(table);
+                    goGererClientPage(stage);
+                }
+            };
+
             vbox.setPadding(new Insets(10, 0, 0, 10));
-            vbox.getChildren().addAll(label, table, keyword, btn, btnR, btnCreerUsage);
+            vbox.getChildren().addAll(label, table, keyword, btnSupprimerClient, btnR, btnCreerUsage);
 
             getChildren().addAll(vbox);
 

@@ -69,6 +69,13 @@ public class HomeAdmin extends CycledView {
             }
         };
 
+        Button btnEmprunt = new Button("Gérer les emprunts") {
+            @Override
+            public void fire() {
+                goConsulterEmprunt(stage);
+            }
+        };
+
 
 
         gp.add(text, 0, 0, 2, 1);
@@ -77,6 +84,7 @@ public class HomeAdmin extends CycledView {
         gp.add(btnCat,0,3);
         gp.add(btnLR,0,4);
         gp.add(btnLivre,0,5);
+        gp.add(btnEmprunt,0,6);
 
         getChildren().add(gp);
 

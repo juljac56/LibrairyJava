@@ -41,9 +41,9 @@ public class EmpruntController {
 
     }
 
-    public Vector<Emprunt> listeEmpruntsActuels() {   // fonction qui revoie les emprunts en cours, pas encore terminés
+    public ObservableList<Emprunt> listeEmpruntsActuels() {   // fonction qui renvoie les emprunts en cours, pas encore terminés
 
-        Vector<Emprunt> liste = new Vector<Emprunt>();
+        ObservableList<Emprunt> liste = FXCollections.observableArrayList();
 
         Iterator val = this.emprunts.iterator();
         while (val.hasNext()) {
@@ -51,7 +51,6 @@ public class EmpruntController {
             if (e.empruntEnCours()) {
                 liste.add(e);
             }
-
         }
         return liste;
     }

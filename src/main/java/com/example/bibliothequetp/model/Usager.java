@@ -60,17 +60,13 @@ public class Usager {
 
     public int supprimer(){
         int succes  = 0;
-
         try {
             Connection conn = DataBase.getConnection();
             PreparedStatement ps0 = conn.prepareStatement("delete from Usager where `ID USAGER`=?");
             ps0.setInt(1,this.idUsager);
-
-            ResultSet rs0 = ps0.executeQuery();
-
+            succes = ps0.executeUpdate();
             conn.close();
         }
-
         catch(Exception e){System.out.println(e);}
 
         return succes;
@@ -90,6 +86,10 @@ public class Usager {
 
     public int getCategorie() {
         return categorie;
+    }
+
+    public Integer getIdUsager() {
+        return idUsager;
     }
 
     public int getNbFoisListeRouge() {

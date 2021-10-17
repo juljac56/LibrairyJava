@@ -62,7 +62,7 @@ public class ConsulterCategories extends CycledView {
 
         TableColumn nbCol= new TableColumn("Nombre Max Emprunts");
         nbCol.setCellValueFactory(new PropertyValueFactory<Categorie, Integer>("nbMax"));
-        TableColumn dureeCol = new TableColumn("Nombre Max Emprunts");
+        TableColumn dureeCol = new TableColumn("Durée Max d'Emprunt");
         dureeCol.setCellValueFactory(new PropertyValueFactory<Categorie, Integer>("dureeMax"));
 
         try {
@@ -87,9 +87,16 @@ public class ConsulterCategories extends CycledView {
                     goAdminPage(stage);
                 }
             };
+            Button btnCreerCat = new Button("Créer une Catégorie") {
+                @Override
+                public void fire() {
+                    goCreerCategoriePage(stage);
+                }
+            };
+
 
             vbox.setPadding(new Insets(10, 0, 0, 10));
-            vbox.getChildren().addAll(label, table, keyword, btn, btnR);
+            vbox.getChildren().addAll(label, table, keyword, btn, btnR, btnCreerCat);
 
             getChildren().addAll(vbox);
             FilteredList<Categorie> filteredData = new FilteredList<Categorie>(data, b -> true);

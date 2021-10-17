@@ -23,15 +23,11 @@ public class HomeClient extends CycledView {
     ObservableList<Emprunt> data;
     MainController controller = new MainController();
     public EmpruntController empruntController;
-    CycledView gererResa;
-    CycledView histo;
-    TableView table;
+    TableView table = new TableView();
 
     public HomeClient(Stage stage) {
         super(stage);
         this.empruntController = new EmpruntController();
-        this.gererResa = new ReserverLivreC(stage);
-        this.histo = new HistoriqueEmpruntUsager(stage);
         this.retour = new home(stage);
 
         createGUI();
@@ -52,23 +48,20 @@ public class HomeClient extends CycledView {
 
         Button btn = new Button("Réserver un livre") {
             @Override
-            public void fire() {
-                callNext(gererResa);
-            }
+            public void fire() {goReserverLivreC(stage);            }
 
         };
 
         Button btnR = new Button("Retour") {
             @Override
             public void fire() {
-                callNext(retour);
+                goHomePage(stage);
             }
         };
 
         Button btnHistoriqueEmprunt = new Button("Historique de vos Emprunts") {
             @Override
-            public void fire() {
-                callNext(histo);
+            public void fire() {goHistoriqueEmpruntUsager(stage);
             }
 
         };

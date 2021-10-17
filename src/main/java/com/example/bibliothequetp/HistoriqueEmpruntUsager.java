@@ -27,7 +27,6 @@ public class HistoriqueEmpruntUsager extends CycledView {
     public HistoriqueEmpruntUsager(Stage stage) {
         super(stage);
         this.empruntController = new EmpruntController();
-        this.retour = new HomeAdmin(stage);
         createGUI();
     }
 
@@ -69,7 +68,7 @@ public class HistoriqueEmpruntUsager extends CycledView {
         Button btnR = new Button("Retour") {
             @Override
             public void fire() {
-                callNext(retour);
+                goClientPage(stage);
             }
         };
         gp.add(btnR,1,0);

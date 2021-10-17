@@ -1,8 +1,6 @@
 package com.example.bibliothequetp.controller;
 
-import com.example.bibliothequetp.model.DataBase;
-import com.example.bibliothequetp.model.Emprunt;
-import com.example.bibliothequetp.model.Livre;
+import com.example.bibliothequetp.model.*;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
@@ -50,6 +48,12 @@ public class CreationController {
         return status;
     }
 
+    public int creationCategorie( Integer duree, Integer nbMax) {
+        int status = 0;
+        status = Categorie.ajoutCatBDD(duree, nbMax);
+        return status;
+    }
+
     public void supprimerlivre(TableView table){
         Livre l = (Livre) table.getSelectionModel().getSelectedItem();
         int livreId = l.getId();
@@ -59,9 +63,18 @@ public class CreationController {
         } catch (SQLException e) {
             e.printStackTrace();
         }
-
-
     }
+    public void supprimerClient(TableView table){
+        Usager u = (Usager) table.getSelectionModel().getSelectedItem();
+        int idUsager = u.getIdUsager();
+        try {
+            Usager usager = new Usager(idUsager);
+            usager.supprimer();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+
 
 }
 

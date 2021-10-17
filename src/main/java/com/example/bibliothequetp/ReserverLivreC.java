@@ -38,7 +38,6 @@ public class ReserverLivreC extends CycledView {
 
     public ReserverLivreC(Stage stage) {
         super(stage);
-        this.retour = new HomeClient(stage);
         createGUI();
     }
 
@@ -86,7 +85,7 @@ public class ReserverLivreC extends CycledView {
             Button btnR = new Button("Retour") {
                 @Override
                 public void fire() {
-                    callNext(retour);
+                    goClientPage(stage);
                 }
             };
 

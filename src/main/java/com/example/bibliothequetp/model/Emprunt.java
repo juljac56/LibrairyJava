@@ -13,6 +13,8 @@ public class Emprunt {    // un emprunt dans l'interface c'est  : titre, dateDeb
     public String nom;
     public String prenom;
     public String titre;
+    public int cat;
+    public String rendrepour;
 
     public Emprunt(String debut, String fin, int support, int usager) {
         this.dateFin = fin;
@@ -26,7 +28,10 @@ public class Emprunt {    // un emprunt dans l'interface c'est  : titre, dateDeb
             this.nom = u.nom;
             this.prenom = u.prenom;
             this.titre = l.titre;
-        } catch (SQLException e) {
+            this.cat = u.categorie;
+            this.rendrepour = rendrePour(dateDebut,cat);
+        }
+        catch (SQLException e) {
             e.printStackTrace();
         }
     }
@@ -47,5 +52,63 @@ public class Emprunt {    // un emprunt dans l'interface c'est  : titre, dateDeb
     public String getDateFin(){return this.dateFin;}
     public String getDateDebut(){return this.dateDebut;}
 
-}
+    public String getPrenom() {
+        return prenom;
+    }
+
+    public String getNom() {
+        return nom;
+    }
+
+    public String getRendrepour() {
+        return rendrepour;
+    }
+
+    public String rendrePour(String dateDebut, int idCat ){
+
+        String[] debutTableau = dateDebut.split("/");
+        System.out.println(debutTableau[1]);
+        Categorie cat = new Categorie(idCat);
+        String fin = "";
+        Integer JoursPlus = cat.dureeMax;
+
+        boolean moisajout = false;
+        boolean anneeajout = false;
+
+        int j = Integer.parseInt(debutTableau[0]);
+        int m = Integer.parseInt(debutTableau[1]);
+        System.out.println(m);
+        int a = Integer.parseInt(debutTableau[2]);
+
+        if (m != 2){
+        if (JoursPlus+j <= 30 ) {
+            Integer somme = j+JoursPlus;
+            fin += somme.toString() +"/"+m+"/"+a;}
+        else{
+            if (m<=11){
+                m =m+1;
+                Integer reste = 30-JoursPlus-j;
+                fin += reste.toString() +"/"+m+"/"+a;}
+
+            else{
+                m = 1;
+                a = a+1;
+                Integer reste = 30-JoursPlus-j;
+                fin += reste.toString() +"/"+m+"/"+a;}
+            }
+        }
+        else{
+            if (JoursPlus+j <= 28 ) {
+                Integer somme = j+JoursPlus;
+                fin += somme.toString() +"/"+m+"/"+a;}
+            else{
+                    m =m+1;
+                    Integer reste = 28-JoursPlus-j;
+                    fin += reste.toString() +"/"+m+"/"+a;}
+        }
+        return fin;
+        }
+
+    }
+
 

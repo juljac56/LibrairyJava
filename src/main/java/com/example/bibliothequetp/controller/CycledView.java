@@ -71,6 +71,23 @@ public abstract class CycledView extends StackPane { // Choose whatever is most 
         getScene().setRoot(n);
     }
 
+    public void goConsulterEmprunt(Stage stage){
+        CycledView n = new ConsulterEmprunts(stage);
+        getScene().setRoot(n);
+    }
+
+    public void goReserverLivreC(Stage stage){
+        CycledView n = new ReserverLivreC(stage);
+        getScene().setRoot(n);
+    }
+    public void goHistoriqueEmpruntUsager(Stage stage){
+        CycledView n = new HistoriqueEmpruntUsager(stage);
+        getScene().setRoot(n);
+    }
+    public void goCreerCategoriePage(Stage stage){
+        CycledView n = new Creercat(stage);
+        getScene().setRoot(n);
+    }
 
 
     public Stage stage;
