@@ -19,6 +19,14 @@ public class Livre {
     int idOeuvre;
     int idEditeur;
     public boolean emprunte;
+    public String mot1;
+    public String mot2;
+    public String mot3;
+    public String mot4;
+    public String mot5;
+    public String nom;
+    public String prenom;
+
 
     public Livre(int id) throws SQLException {   // id du support
         this.id = id;
@@ -42,7 +50,7 @@ public class Livre {
 
         while (rs.next()){  // gives id oeuvre and idediteur
             System.out.println("ID OEUVRE " +rs.getString(2));
-            idOeuvre = rs.getInt(2);
+            this.idOeuvre = rs.getInt(2);
             idEditeur = rs.getInt(3);
         }
 
@@ -55,6 +63,10 @@ public class Livre {
             this.titre = rs1.getString(2);
             System.out.println("titre" + this.titre);
             this.annee = rs1.getInt(3);
+            this.mot1 = rs1.getString(4);
+            this.mot2 = rs1.getString(5);
+            this.mot3 = rs1.getString(6);
+            this.mot5 = rs1.getString(7);
 
         }
 
@@ -79,16 +91,20 @@ public class Livre {
             ResultSet rs4 = ps4.executeQuery();
 
             while (rs4.next()) {
-                this.auteur.add(rs4.getString(1) +", "+ rs4.getString(2) +" ");
+                this.auteur.add( "( "+ rs4.getString(2) +", "+ rs4.getString(1) +" ) ");
             }
         }
+
+        String[] premierAuteur = auteur.get(0).split(",");
+        this.prenom = premierAuteur[0].replace("(","");
+        this.nom = premierAuteur[1].replace(")","");
 
         conn.close();
 
     }
 
 
-    public String listAuteur(){  // renvoie un string de tous les auteurs (Nom puis prenoms)
+    public String listAuteur(){  // renvoie un string de tous les auteurs (prenom, nom)
         String aut = "";
         Iterator val = this.auteur.iterator();
         while (val.hasNext()){
@@ -97,13 +113,32 @@ public class Livre {
         return aut;
     }
 
+    public String listeMots(){  // renvoie un string de tous les auteurs (Nom puis prenoms)
 
-    public static int ajoutlivreBDD(String titre, int annee, int ISBN, Vector<String> auteurp, Vector<String> auteurn, String edition, String mot1) {
+        if (mot3 == null || mot3.length() == 0 ){
+            mot3 = " non renseigné ";
+        }
+        if (mot4 == null || mot4.length() == 0){
+            mot4 = " non renseigné ";
+        }
+        if (mot5 == null || mot5.length() == 0){
+            mot5 = " non renseigné ";
+        }
+        if (mot2 == null || mot2.length() == 0){
+            mot2 = " non renseigné ";
+        }
+
+        String mots = mot1+","+mot2+","+mot3+","+mot4+","+mot5;
+        return mots;
+    }
+
+
+    public static int ajoutlivreBDD(String titre, int annee, int ISBN, Vector<String> auteurp, Vector<String> auteurn, String edition, String mot1,String mot2,String mot3,String mot4, String mot5) {
 
         int succes = 0;
         int idEditeurAjout;
         int idOeuvreAjout;
-        Vector<Integer> idAuteurAjout  =new Vector<Integer>();
+        Vector<Integer> idAuteurAjout  = new Vector<Integer>();
 
         try {
             Connection conn = DataBase.getConnection();
@@ -159,10 +194,14 @@ public class Livre {
 
 
             if (rs4.next() == false) {
-                PreparedStatement ps5 = conn.prepareStatement("INSERT INTO OEUVRE(TITRE, ANNEE, MOT1) values (?,?,?) ");
+                PreparedStatement ps5 = conn.prepareStatement("INSERT INTO OEUVRE(TITRE, ANNEE, MOT1, MOT2,MOT3,MOT4,MOT5) values (?,?,?,?,?,?,?) ");
                 ps5.setString(1, titre);
                 ps5.setInt(2, annee);
                 ps5.setString(3, mot1);
+                ps5.setString(4, mot2);
+                ps5.setString(5, mot3);
+                ps5.setString(6, mot4);
+                ps5.setString(7, mot5);
                 ps5.executeUpdate();
             }
             PreparedStatement ps51 = conn.prepareStatement("SELECT `ID OEUVRE` FROM OEUVRE WHERE TITRE = ? AND ANNEE = ?  ");
@@ -241,6 +280,12 @@ public class Livre {
         this.editeur = editeur;
     }
 
+    public String getNom() {
+        return nom;
+    }
+    public String getPrenom() {
+        return prenom;
+    }
     /* public String getAuteurp(){
         return this.titre;
     }
@@ -266,6 +311,10 @@ public class Livre {
 
     public void setAnnee(Integer annee) {
         this.annee = annee;
+    }
+
+    public int getIdOeuvre() {
+        return idOeuvre;
     }
 }
 

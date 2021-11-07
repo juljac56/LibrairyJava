@@ -7,15 +7,20 @@ import com.example.bibliothequetp.model.Emprunt;
 import com.example.bibliothequetp.model.Livre;
 import com.example.bibliothequetp.model.Usager;
 import javafx.collections.ObservableList;
+import javafx.collections.transformation.FilteredList;
+import javafx.collections.transformation.SortedList;
 import javafx.geometry.Insets;
 import javafx.scene.control.Button;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
+import javafx.scene.control.TextField;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.VBox;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
+
+import java.util.Vector;
 
 
 public class ConsulterEmprunts extends CycledView {
@@ -36,6 +41,7 @@ public class ConsulterEmprunts extends CycledView {
         gp.setPadding(new Insets(20));
         gp.setHgap(25);
         gp.setVgap(15);
+        TextField keyword = new TextField();
 
         Text text = new Text();
         text.setText("Page Client");
@@ -55,7 +61,7 @@ public class ConsulterEmprunts extends CycledView {
         titreDateFin.setCellValueFactory(new PropertyValueFactory<Emprunt, String>("rendrepour"));
         TableColumn nomCol = new TableColumn<Emprunt, String>("Nom");
         nomCol.setCellValueFactory(new PropertyValueFactory<Usager, String>("nom"));
-        //titreCol.setCellValueFactory(cellData -> cellData.getValue().dateProperty());
+
 
         TableColumn prenomCol = new TableColumn("Prenom");
         prenomCol.setCellValueFactory(new PropertyValueFactory<Usager, Integer>("prenom"));
@@ -68,6 +74,39 @@ public class ConsulterEmprunts extends CycledView {
             table.getColumns().addAll(titreCol,UsagerCol,titreDateDeb,titreDateFin);
             table.setItems(data);
             table.setEditable(true);
+
+            FilteredList<Emprunt> filteredData = new FilteredList<Emprunt>(data, b -> true);
+
+            keyword.textProperty().addListener((observable, oldValue, newValue) -> {
+                filteredData.setPredicate(usager -> {
+                    if (newValue.isBlank() || newValue.isBlank() || newValue == null) {
+                        return true;
+                    }
+                    String searchKeyword = newValue.toLowerCase();
+
+                    if (usager.getPrenom().toLowerCase().indexOf(searchKeyword) != -1) {
+                        return true;
+                    }
+
+                    else if(usager.getTitre().toLowerCase().indexOf(searchKeyword) !=-1){
+                        return true;
+                    }
+
+                    else {
+                        return false;
+                    }
+                    //else if(){}
+
+
+                });
+            });
+
+            SortedList<Emprunt> sortedData = new SortedList<>(filteredData);
+            sortedData.comparatorProperty().bind(table.comparatorProperty());
+
+            table.setItems(sortedData);
+            table.setEditable(true);
+
         }
         catch(Exception e){e.printStackTrace();}
 
@@ -77,6 +116,13 @@ public class ConsulterEmprunts extends CycledView {
                 goAdminPage(stage);
             }
         };
+
+        Button btnRendreLivre = new Button("Rendre livre");
+        btnRendreLivre.setOnAction(actionEvent -> {
+           empruntController.rendreLivre(table);
+           goConsulterEmprunt(stage);
+        });
+
         gp.add(btnR,1,0);
 
         final VBox vbox = new VBox();
@@ -85,7 +131,7 @@ public class ConsulterEmprunts extends CycledView {
 
 
         vbox.setPadding(new Insets(10, 0, 0, 10));
-        vbox.getChildren().addAll(gp, table);
+        vbox.getChildren().addAll(gp, table, btnRendreLivre, keyword);
 
         getChildren().addAll(vbox);
     }

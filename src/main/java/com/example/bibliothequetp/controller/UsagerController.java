@@ -1,9 +1,6 @@
 package com.example.bibliothequetp.controller;
 
-import com.example.bibliothequetp.model.DataBase;
-import com.example.bibliothequetp.model.Emprunt;
-import com.example.bibliothequetp.model.Livre;
-import com.example.bibliothequetp.model.Usager;
+import com.example.bibliothequetp.model.*;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.scene.control.TableView;
@@ -49,7 +46,6 @@ public class UsagerController {
             Usager u = (Usager) val.next();
                 liste.add(u);
 
-
         }
         return liste;
     }
@@ -64,6 +60,46 @@ public class UsagerController {
         int succes = 0;
         succes = u.supprimer();
 
+    }
+
+    public Vector<Object> debutModifierClient(TableView table){
+        Vector<Object> v = new Vector<>();
+        Usager c = (Usager) table.getSelectionModel().getSelectedItem();
+        int id = c.getIdUsager();
+        String prenom = c.getPrenom();
+        String nom = c.getNom();
+        int cat = c.categorie;
+        String mail = c.mail;
+
+        v.add(id);
+        v.add(prenom);
+        v.add(nom);
+        v.add(cat);
+        v.add(mail);
+
+        return v;
+    }
+
+    public int modifierClient(int id, String prenom, String nom, int cat, String mail){
+        int succes = 0;
+        try {
+            Connection conn = DataBase.getConnection();
+            PreparedStatement ps = conn.prepareStatement("UPDATE USAGER SET PRENOM = ?,NOM = ?, MAIL = ?, `ID CATEGORIE`= ? WHERE `ID USAGER` = ?;");
+            ps.setString(1,prenom);
+            ps.setString(2,nom);
+            ps.setString(3,mail);
+            ps.setInt( 4, cat);
+            ps.setInt(5,id);
+
+            succes = ps.executeUpdate();
+            System.out.println("succes "+succes);
+
+            conn.close();
+
+        } catch (Exception e) {
+            System.out.println(e);
+        }
+        return succes;
     }
 
 

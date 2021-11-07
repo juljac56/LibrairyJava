@@ -34,15 +34,20 @@ public class CreationController {
         return status;
     }
 
-    public int creationLivre(String titre, Integer annee, Integer ISBN, String mot1, String editeur, String prenom,String nom) {
+    public int creationLivre(String titre, Integer annee, Integer ISBN, String mot1,String mot2,String mot3,String mot4,String mot5, String editeur, String prenom,String nom) {
 
         Vector<String> auteurn = new Vector<>();
-        auteurn.add(nom);
         Vector<String> auteurp = new Vector<>();
-        auteurp.add(prenom);
 
+        String[] tableauPrenom = prenom.split(",");
+        String[] tableauNom = nom.split(",");
+
+        for (int i = 0; i <= tableauNom.length -1; i++){
+            auteurn.add(tableauNom[i]);
+            auteurp.add(tableauPrenom[i]);
+        }
         int status = 0;
-        status = Livre.ajoutlivreBDD(titre, annee, ISBN, auteurp, auteurn, editeur, mot1);
+        status = Livre.ajoutlivreBDD(titre, annee, ISBN, auteurp, auteurn, editeur, mot1, mot2,mot3,mot4,mot5);
 
 
         return status;

@@ -65,6 +65,10 @@ public class CreerLivre extends CycledView {
         TextField tfTitre = new TextField();
         TextField tfAnnee = new TextField();
         TextField tfMot1 = new TextField();
+        TextField tfMot2= new TextField();
+        TextField tfMot3 = new TextField();
+        TextField tfMot4 = new TextField();
+        TextField tfMot5 = new TextField();
         TextField tfEditeur = new TextField();
         TextField tfNomE = new TextField();
         TextField tfPrenomE = new TextField();
@@ -77,6 +81,10 @@ public class CreerLivre extends CycledView {
         Label labelNomAuteur = new Label("Nom(s) Auteur(s) (à séparer par un virgule)");
         Label labelAnnee = new Label("Annee");
         Label labelMot1 = new Label("Mot1");
+        Label labelMot5 = new Label("Mot5");
+        Label labelMot2 = new Label("Mot2");
+        Label labelMot3 = new Label("Mot3");
+        Label labelMot4 = new Label("Mot4");
         Label labelISBN  = new Label("ISBN");
 
         Button buttonCreation = new Button("Créer Livre");
@@ -84,13 +92,17 @@ public class CreerLivre extends CycledView {
         buttonCreation.setOnAction(action -> {
             int annee = Integer.parseInt(tfAnnee.getText());
             int isbn = Integer.parseInt(tfISBN.getText());
-            int succes = controller.creationLivre(tfTitre.getText(), annee,isbn, tfMot1.getText(), (String) boxEditeur.getValue(), tfPrenomE.getText(), tfNomE.getText());
+            int succes = controller.creationLivre(tfTitre.getText(), annee,isbn, tfMot1.getText(),tfMot2.getText(),tfMot3.getText(),tfMot4.getText(), tfMot5.getText(),(String) boxEditeur.getValue(), tfPrenomE.getText(), tfNomE.getText());
 
             if (succes ==1){gp.add(creationOk,0,8);
 
                 tfTitre.setText("");
                  tfAnnee.setText("");
                  tfMot1.setText("");
+                tfMot2.setText("");
+                tfMot3.setText("");
+                tfMot4.setText("");
+                tfMot5.setText("");
                  //tfEditeur.setText("");
                  tfNomE.setText("");
                  tfPrenomE.setText("");
@@ -112,7 +124,11 @@ public class CreerLivre extends CycledView {
         gp.add(tfNomE, 0,4);
         gp.add(tfPrenomE, 0,5);
         gp.add(tfMot1, 0,6);
-        gp.add(tfISBN, 0,7);
+        gp.add(tfMot2, 0,7);
+        gp.add(tfMot3, 0,8);
+        gp.add(tfMot4, 0,9);
+        gp.add(tfMot5, 0,10);
+        gp.add(tfISBN, 0,11);
 
         gp.add(labelTitre, 1, 1);
         gp.add(labelAnnee, 1, 2);
@@ -120,7 +136,11 @@ public class CreerLivre extends CycledView {
         gp.add(labelNomAuteur, 1, 4);
         gp.add(labelPrenomAuteur, 1, 5);
         gp.add(labelMot1, 1, 6);
-        gp.add(labelISBN,1,7);
+        gp.add(labelMot2, 1, 7);
+        gp.add(labelMot3, 1, 8);
+        gp.add(labelMot4, 1, 9);
+        gp.add(labelMot5, 1, 10);
+        gp.add(labelISBN,1,11);
 
         getChildren().add(gp);
 

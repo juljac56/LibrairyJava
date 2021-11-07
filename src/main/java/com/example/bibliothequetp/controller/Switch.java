@@ -49,10 +49,6 @@ public class Switch extends Application {
 
              */
 
-
-
-
-
         //b.next = a;
         Scene scene = new Scene(h, 600, 550);
 

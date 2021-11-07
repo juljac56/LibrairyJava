@@ -1,16 +1,18 @@
 package com.example.bibliothequetp.controller;
 
-import com.example.bibliothequetp.model.DataBase;
-import com.example.bibliothequetp.model.Emprunt;
-import com.example.bibliothequetp.model.Livre;
+import com.example.bibliothequetp.model.*;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.scene.Parent;
+import javafx.scene.control.TableView;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.Iterator;
 import java.util.Vector;
 
@@ -38,7 +40,6 @@ public class EmpruntController {
         } catch (Exception e) {
             System.out.println(e);
         }
-
     }
 
     public ObservableList<Emprunt> listeEmpruntsActuels() {   // fonction qui renvoie les emprunts en cours, pas encore terminés
@@ -48,10 +49,12 @@ public class EmpruntController {
         Iterator val = this.emprunts.iterator();
         while (val.hasNext()) {
             Emprunt e = (Emprunt) val.next();
-            if (e.empruntEnCours()) {
+            if (!e.empruntRendu()) {
                 liste.add(e);
             }
         }
+        System.out.println(liste);
+        System.out.println(this.emprunts);
         return liste;
     }
 
@@ -79,7 +82,7 @@ public class EmpruntController {
         Iterator val = this.emprunts.iterator();
         while (val.hasNext()) {
             Emprunt e = (Emprunt) val.next();
-            if (e.idUsager == id && e.empruntEnCours()) {
+            if (e.idUsager == id && !e.empruntRendu()) {
                 liste.add(e);
             }
 
@@ -87,6 +90,138 @@ public class EmpruntController {
         return liste;
     }
 
+    public Integer debutCreerEmprunt(TableView table){
+        Vector<Integer> v = new Vector<>();
+        Livre l = (Livre) table.getSelectionModel().getSelectedItem();
+        Integer idLivre = l.getId();
 
+        return idLivre;
+    }
+
+    public boolean verifierEmprunt(int id ){ // renvoie si un livre peut etre emprunté ou si il l'est deja
+            boolean rendu = true;
+        try {
+            Connection conn = DataBase.getConnection();
+            PreparedStatement ps = conn.prepareStatement("select * from EMPRUNT where `ID SUPPORT` = ?");
+            ps.setInt(1,id);
+            ResultSet rs = ps.executeQuery();
+
+            while (rs.next()) {
+                String dateDebut = rs.getString(1);
+                String dateFin = rs.getString(2);
+                int idSupport = rs.getInt(3);
+                int idUsager = rs.getInt(4);
+
+                Emprunt emprunt = new Emprunt(dateDebut, dateFin, idSupport, idUsager);
+                rendu = emprunt.empruntRendu() && rendu;
+            }
+            conn.close();
+        } catch (Exception e) {
+            System.out.println(e);
+        }
+            return rendu;
+    }
+
+    public int creerEmprunt(TableView table, Integer idLivre){
+        Usager u = (Usager) table.getSelectionModel().getSelectedItem();
+        int idUs = u.idUsager;
+        int status = 0;
+        DateFormat df = new SimpleDateFormat("dd/MM/yyyy");
+        String date = df.format(new Date());
+        String dateFin = Emprunt.rendrePour(date, u.categorie);
+        System.out.print(date);
+        System.out.print(dateFin);
+        if (u.possibleEmprunt()){
+            System.out.println("Emprunt possible !");
+
+            try {
+                Connection conn = DataBase.getConnection();
+                PreparedStatement ps = conn.prepareStatement("INSERT INTO EMPRUNT(`DATE Debut`,`DATE FIN`, `ID SUPPORT`, `ID USAGER`) VALUES(?,?,?,?)");
+                ps.setString(1,date);
+                ps.setString(2,"");
+                ps.setInt(3,idLivre);
+                ps.setInt(4,idUs);
+                status = ps.executeUpdate();
+                System.out.println(status);
+                conn.close();
+            } catch (Exception e) {
+                System.out.println(e);
+            }
+        }
+        else {
+            System.out.println("Emprunt impossible !");
+        }
+        return status;
+    }
+
+    public void rendreLivre (TableView table){
+        Emprunt l = (Emprunt) table.getSelectionModel().getSelectedItem();
+
+        int succes = 0;
+        try {
+            Connection conn = DataBase.getConnection();
+            PreparedStatement ps = conn.prepareStatement("UPDATE `EMPRUNT` SET `Date FIN` = ? WHERE `ID SUPPORT` = ?");
+            DateFormat df = new SimpleDateFormat("dd/MM/yyyy");
+            String date = df.format(new Date());
+            ps.setString(1,date);
+            ps.setInt(2,l.idSupport);
+            succes = ps.executeUpdate();
+            System.out.println("succes "+succes);
+            conn.close();
+
+        } catch (Exception e) {
+            System.out.println(e);
+        }
+    }
+
+    public Vector<Object> debutModifierLivre(TableView table){
+        Vector<Object> v = new Vector<>();
+        Livre l = (Livre) table.getSelectionModel().getSelectedItem();
+        int id = l.getId();
+        String titre = l.titre;
+        int annee = l.annee;
+        int idOeuvre = l.getIdOeuvre();
+        String mot1 = l.mot1;
+        String mot2 = l.mot2;
+        String mot3 = l.mot3;
+        String mot4 = l.mot4;
+        String mot5 = l.mot5;
+
+        v.add(id);
+        v.add(titre);
+        v.add(annee);
+        v.add(mot1);
+        v.add(mot2);
+        v.add(mot3);
+        v.add(mot4);
+        v.add(mot5);
+        v.add(idOeuvre);
+
+        return v;
+    }
+
+    public int modifierLivre(int id,String titre,String mot1,String mot2,String mot3,String mot4, String mot5, int annee, int idOeuvre){
+        int succes = 0;
+        System.out.println(idOeuvre);
+        try {
+            Connection conn = DataBase.getConnection();
+
+            PreparedStatement ps = conn.prepareStatement("UPDATE OEUVRE SET TITRE = ? ,ANNEE = ?, MOT1 = ?, MOT2 = ?, MOT3 = ? , MOT4 = ?, MOT5 = ? WHERE `ID OEUVRE` = ?;");
+            ps.setString(1,titre);
+            ps.setInt(2,annee);
+            ps.setString(3,mot1);
+            ps.setString(4,mot2);
+            ps.setString(5,mot3);
+            ps.setString(6,mot4);
+            ps.setString(7, mot5);
+            ps.setInt(8,idOeuvre);
+            succes = ps.executeUpdate();
+            conn.close();
+
+        } catch (Exception e) {
+            System.out.println(e);
+        }
+        return succes;
+    }
 
 }

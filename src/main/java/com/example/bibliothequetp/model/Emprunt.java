@@ -4,6 +4,11 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.util.Collections;
+import java.util.Date;
+import java.util.List;
 
 public class Emprunt {    // un emprunt dans l'interface c'est  : titre, dateDebut, DateFIn, usager (nom/prenom)
     public String dateFin;
@@ -34,13 +39,24 @@ public class Emprunt {    // un emprunt dans l'interface c'est  : titre, dateDeb
         catch (SQLException e) {
             e.printStackTrace();
         }
+
+        String dateSupposeFin = rendrePour(dateDebut,cat);
+
+        DateFormat df = new SimpleDateFormat("dd/MM/yyyy");
+        String date = df.format(new Date());
+        String[] finTableau = dateSupposeFin.split("/");
+        String[] currentTableau = date.split("/");
+        Collections.reverse(List.of(finTableau));
+        Collections.reverse(List.of(currentTableau));
+
+
     }
 
-    public boolean empruntEnCours() {
-        if (this.dateFin == null) {
-            return true;
-        } else {
+    public boolean empruntRendu() {
+        if (this.dateFin == null || this.dateFin.length() == 0) {
             return false;
+        } else {
+            return true;
         }
     }
 
@@ -64,7 +80,7 @@ public class Emprunt {    // un emprunt dans l'interface c'est  : titre, dateDeb
         return rendrepour;
     }
 
-    public String rendrePour(String dateDebut, int idCat ){
+    public static String rendrePour(String dateDebut, int idCat ){
 
         String[] debutTableau = dateDebut.split("/");
         System.out.println(debutTableau[1]);

@@ -49,7 +49,7 @@ public class ConsulterListeRouge extends CycledView {
         final Label label = new Label("ListeRouge");
         label.setFont(new Font("Arial", 20));
 
-        TableColumn nomCol = new TableColumn<ListeRouge, String>("Nom");
+        TableColumn nomCol = new TableColumn("Nom");
         nomCol.setCellValueFactory(new PropertyValueFactory<ListeRouge, String>("nom"));
         //titreCol.setCellValueFactory(cellData -> cellData.getValue().dateProperty());
 
@@ -74,10 +74,14 @@ public class ConsulterListeRouge extends CycledView {
             TextField keyword = new TextField();
             Label search = new Label("Recherche");
 
-            Button btn = new Button("Modifier");
-            btn.setOnAction(actionEvent -> {
-                controller.ListeRDetails(table);
-            });
+
+            Button btnSupprimerLR = new Button("retirer de la liste rouge") {
+                @Override
+                public void fire() {
+                    controller.supprimerLR(table);
+                    goLRPage(stage);
+                }
+            };
 
             Button btnR = new Button("Retour") {
                 @Override
@@ -87,7 +91,7 @@ public class ConsulterListeRouge extends CycledView {
             };
 
             vbox.setPadding(new Insets(10, 0, 0, 10));
-            vbox.getChildren().addAll(label, table, keyword, btn, btnR);
+            vbox.getChildren().addAll(label, table, keyword, btnR, btnSupprimerLR);
 
             getChildren().addAll(vbox);
 

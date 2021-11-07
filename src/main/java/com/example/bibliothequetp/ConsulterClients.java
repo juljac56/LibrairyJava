@@ -1,9 +1,6 @@
 package com.example.bibliothequetp;
 
-import com.example.bibliothequetp.controller.CreationController;
-import com.example.bibliothequetp.controller.CycledView;
-import com.example.bibliothequetp.controller.MainController;
-import com.example.bibliothequetp.controller.UsagerController;
+import com.example.bibliothequetp.controller.*;
 import com.example.bibliothequetp.model.DataBase;
 import com.example.bibliothequetp.model.Livre;
 import com.example.bibliothequetp.model.Usager;
@@ -36,6 +33,7 @@ import static java.lang.String.valueOf;
 public class ConsulterClients extends CycledView {
 
     UsagerController controller = new UsagerController();
+    ListeRougeController LRController = new ListeRougeController();
     CreationController creaController = new CreationController();
     ObservableList<Usager> data;
     TableView table;
@@ -102,6 +100,13 @@ public class ConsulterClients extends CycledView {
                 }
             };
 
+            Button btnLR = new Button("Ajouter Liste Rouge");
+            btnLR.setOnAction(actionEvent -> {
+                System.out.println("Appuie");
+                Integer idUs = LRController.debutAjoutLR(table);
+                goAjouterLR(stage,idUs);
+            });
+
             Button btnSupprimerClient = new Button("Supprimer Client") {
                 @Override
                 public void fire() {
@@ -110,8 +115,14 @@ public class ConsulterClients extends CycledView {
                 }
             };
 
+            Button btnModifier = new Button("Modifier");
+            btnModifier.setOnAction(actionEvent -> {
+                Vector<Object> v = controller.debutModifierClient(table);
+                goModifierClient(stage,(int) v.get(0),(String) v.get(1), (String) v.get(2), (int) v.get(3), (String) v.get(4));
+            });
+
             vbox.setPadding(new Insets(10, 0, 0, 10));
-            vbox.getChildren().addAll(label, table, keyword, btnSupprimerClient, btnR, btnCreerUsage);
+            vbox.getChildren().addAll(label, table, keyword, btnSupprimerClient, btnR, btnCreerUsage, btnModifier, btnLR);
 
             getChildren().addAll(vbox);
 
@@ -147,12 +158,6 @@ public class ConsulterClients extends CycledView {
             e.printStackTrace();
         }
 
-        Button btnR = new Button("Retour") {
-            @Override
-            public void fire() {
-                callNext(retour);
-            }
-        };
     }
 
     public ObservableList<Livre> getLivreList() {

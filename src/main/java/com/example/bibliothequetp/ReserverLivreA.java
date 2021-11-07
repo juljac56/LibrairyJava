@@ -2,6 +2,7 @@ package com.example.bibliothequetp;
 
 import com.example.bibliothequetp.controller.CreationController;
 import com.example.bibliothequetp.controller.CycledView;
+import com.example.bibliothequetp.controller.EmpruntController;
 import com.example.bibliothequetp.controller.MainController;
 import com.example.bibliothequetp.model.DataBase;
 import com.example.bibliothequetp.model.Livre;
@@ -35,6 +36,7 @@ public class ReserverLivreA extends CycledView {
 
     MainController controller = new MainController();
     CreationController creaController = new CreationController();
+    EmpruntController empruntController = new EmpruntController();
 
     ObservableList<Livre> data;
     TableView table = new TableView();
@@ -66,7 +68,9 @@ public class ReserverLivreA extends CycledView {
         TableColumn editeurCol = new TableColumn("Editeur");
         editeurCol.setCellValueFactory(new PropertyValueFactory<Livre, String>("editeur"));
         TableColumn prenomAuteur = new TableColumn("Prenom");
+        prenomAuteur.setCellValueFactory(new PropertyValueFactory<Livre, String>("prenom"));
         TableColumn nomAuteur = new TableColumn("Nom");
+        nomAuteur.setCellValueFactory(new PropertyValueFactory<Livre, String>("nom"));
 
         auteurCol.getColumns().addAll(prenomAuteur, nomAuteur);
 
@@ -108,8 +112,26 @@ public class ReserverLivreA extends CycledView {
                 }
             };
 
+            Button btnCreerEmprunt = new Button("Emprunter");
+            btnCreerEmprunt.setOnAction(actionEvent -> {
+                Integer idL = empruntController.debutCreerEmprunt(table);
+                goCreerEmprunt(stage, idL);
+            });
+
+            Button btnModifier = new Button("Modifier");
+            btnModifier.setOnAction(actionEvent -> {
+                Vector<Object> v = empruntController.debutModifierLivre(table);
+                goModifierLivre(stage,(int) v.get(0),(String) v.get(1), (int) v.get(2), (String) v.get(3), (String) v.get(4), (String) v.get(5), (String) v.get(6), (String) v.get(7), (int) v.get(8));
+            });
+
+            Button btnDetailLivre = new Button("Details");
+            btnDetailLivre.setOnAction(actionEvent -> {
+                Integer idL = empruntController.debutCreerEmprunt(table);
+                goVoirDetails(stage, idL);
+            });
+
             vbox.setPadding(new Insets(10, 0, 0, 10));
-            vbox.getChildren().addAll(label, table, keyword, btn, btnR, btnCreerLivre,btnSupprimerLivre);
+            vbox.getChildren().addAll(label, table, keyword, btnCreerEmprunt,btnDetailLivre, btnR, btnCreerLivre,btnModifier,btnSupprimerLivre);
 
             getChildren().addAll(vbox);
 

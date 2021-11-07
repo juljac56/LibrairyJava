@@ -38,9 +38,11 @@ public class ListeRouge {
 
             while (rs1.next()){    // gives title and year
                 this.idUsager = rs1.getInt(2);
+
                 Usager u = new Usager(this.idUsager);
                 this.nom = u.nom;
                 this.prenom = u.prenom;
+                System.out.println("Id Usager ::: " + u.nom);
 
             }
             conn.close();
@@ -90,6 +92,25 @@ public class ListeRouge {
         return liste;
     }
 
+    public int supprimer(){
+        int succes  = 0;
+        try {
+            Connection conn = DataBase.getConnection();
+            PreparedStatement ps0 = conn.prepareStatement("delete from LISTEROUGE where `ID LISTEROUGE`=?");
+            ps0.setInt(1,this.idListeR);
+            succes = ps0.executeUpdate();
+
+            PreparedStatement ps1 = conn.prepareStatement("delete from LISTEROUGE where `ID Liste`=?");
+            ps1.setInt(1,this.idListeR);
+            succes = ps1.executeUpdate();
+
+            conn.close();
+        }
+        catch(Exception e){System.out.println(e);}
+
+        return succes;
+    };
+
     public String getNom() {
         return nom;
     }
@@ -108,6 +129,10 @@ public class ListeRouge {
 
     public String getDateFin() {
         return dateFin;
+    }
+
+    public int getIdListeR(){
+        return idListeR;
     }
 }
 
