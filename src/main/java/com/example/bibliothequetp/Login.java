@@ -34,7 +34,6 @@ public class Login extends CycledView {
         Text text = new Text();
         text.setText("Page de Login");
 
-
         TextField tfusername = new TextField();
         PasswordField tfpassword = new PasswordField();
 
@@ -48,8 +47,8 @@ public class Login extends CycledView {
         gp.add(LabelPassword, 1, 2);
 
 
-
         Button Btnlogin = new Button("Se connecter");
+        Btnlogin.getStyleClass().add("btn");
 
         Btnlogin.setOnAction(action -> {
 

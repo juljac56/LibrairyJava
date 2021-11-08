@@ -5,6 +5,10 @@ import javafx.application.Application;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.layout.StackPane;
+import javafx.scene.paint.Color;
+import javafx.scene.paint.CycleMethod;
+import javafx.scene.paint.RadialGradient;
+import javafx.scene.paint.Stop;
 import javafx.stage.Stage;
 
 import java.util.List;
@@ -18,8 +22,8 @@ public class Switch extends Application {
     public void start(Stage primaryStage) {
 
         try {CycledView h = new Login(primaryStage);
-        Scene scene = new Scene(h, 600, 550);  // donne les dimensions de la fenetre
-
+            h.setStyle("-fx-background-color: #3B5D88;");
+        Scene scene = new Scene(h, 600, 600);  // donne les dimensions de la fenetre
         primaryStage.setTitle("Logiciel de gestion de Bibliothèque");
 
         String stylesheet = getClass().getResource("/style.css").toExternalForm();

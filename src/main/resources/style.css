@@ -1,3 +1,46 @@
-.btn {-fx-background-color : blue;
--fx-text-fill : white;
+
+.table-row-cell:empty {
+    -fx-background-color: white;
 }
+
+.table-row-cell:empty .table-cell {
+    -fx-border-width: 0px;
+}
+.table-colonn-cell:empty .table-cell {
+    -fx-border-width: 0px;
+}
+btn {
+-fx-background-color : white;
+-fx-text-fill : #3B5D88;
+-fx-font-size: 12pt;
+}
+
+.table-row-cell:selected {
+   -fx-background-color: #B98BF3;
+   -fx-text-fill: white;
+}
+
+.table-view .column-header .label{
+   -fx-text-fill: black;
+   -fx-font-weight: bold;
+   -fx-alignment: CENTER_LEFT;
+}
+
+btnR {-fx-text-fill : red;
+-fx-font-size: 12pt;}
+
+Text {
+ -fx-fill: white;
+ -fx-font-size: 11pt;
+}
+
+TextField {
+ -fx-font-size: 11pt;
+}
+
+Label {
+       -fx-text-fill: white;
+       -fx-font-size: 11pt;
+      }
+
+

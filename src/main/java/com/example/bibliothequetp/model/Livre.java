@@ -28,14 +28,14 @@ public class Livre {
     public String nom;
     public String prenom;
 
+    public Livre(int id){   // id du support
 
-    public Livre(int id) throws SQLException {   // id du support
         this.id = id;
+        try{
 
         Connection conn = DataBase.getConnection();
         PreparedStatement ps0 = conn.prepareStatement("select ISBN from SUPPORT WHERE `ID SUPPORT` = ? ");
         ps0.setInt(1,id);
-
         ResultSet rs0 = ps0.executeQuery();
 
         this.ISBN = rs0.getInt(1);
@@ -66,7 +66,6 @@ public class Livre {
             this.mot2 = rs1.getString(5);
             this.mot3 = rs1.getString(6);
             this.mot5 = rs1.getString(7);
-
         }
 
         PreparedStatement ps2 = conn.prepareStatement("select * from  EDITEUR WHERE `ID EDITEUR` = ? ");
@@ -97,11 +96,10 @@ public class Livre {
         String[] premierAuteur = auteur.get(0).split(",");
         this.prenom = premierAuteur[0].replace("(","");
         this.nom = premierAuteur[1].replace(")","");
-
         conn.close();
-
     }
-
+        catch (Exception e) {
+            System.out.println(e);}}
 
     public String listAuteur(){  // renvoie un string de tous les auteurs (prenom, nom)
         String aut = "";
@@ -111,6 +109,7 @@ public class Livre {
         }
         return aut;
     }
+
 
     public String listeMots(){  // renvoie un string de tous les auteurs (prenoms puis noms)
 
@@ -232,14 +231,12 @@ public class Livre {
                 ps7.setInt(1, idOeuvreAjout);
                 ps7.setInt(2, (Integer) val.next());
                 ps7.executeUpdate();
-
             }
 
             // creation du support dans la table Support
             PreparedStatement ps8 = conn.prepareStatement("INSERT INTO SUPPORT(ISBN) values (?) ");
             ps8.setInt(1, ISBN);
             succes = ps8.executeUpdate();
-
             conn.close();
         }
         catch (SQLException throwables) {
@@ -259,8 +256,6 @@ public class Livre {
         catch (Exception e) {
             e.printStackTrace();
         }
-
-
             // Supprimer un livre c'est : supprimer le support (le reste est gardé)
     }
 

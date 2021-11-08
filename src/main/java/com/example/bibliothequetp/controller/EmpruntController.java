@@ -86,25 +86,26 @@ public class EmpruntController {
 
     public boolean verifierEmprunt(int id ){ // renvoie si un livre peut etre emprunté ou si il l'est deja
         // en fonction de s'il est deja emprunté
-            boolean rendu = true;
-        try {
+        boolean rendu = true;
+        try{
             Connection conn = DataBase.getConnection();
-            PreparedStatement ps = conn.prepareStatement("select * from EMPRUNT where `ID SUPPORT` = ?");
-            ps.setInt(1,id);
-            ResultSet rs = ps.executeQuery();
+            PreparedStatement ps5 = conn.prepareStatement("select * from EMPRUNT where `ID SUPPORT` = ?");
+            ps5.setInt(1,id);
+            ResultSet rs5 = ps5.executeQuery();
 
-            while (rs.next()) {
-                String dateDebut = rs.getString(1);
-                String dateFin = rs.getString(2);
-                int idSupport = rs.getInt(3);
-                int idUsager = rs.getInt(4);
-                Emprunt emprunt = new Emprunt(dateDebut, dateFin, idSupport, idUsager);
-                rendu = emprunt.empruntRendu() && rendu;
+            while (rs5.next()) {
+                String dateDebut = rs5.getString(1);
+                String dateFin = rs5.getString(2);
+                int idUsager = rs5.getInt(4);
+                Emprunt emprunt = new Emprunt(dateDebut, dateFin, id, idUsager);
+                rendu = rendu && emprunt.empruntRendu();
             }
             conn.close();
+
         } catch (Exception e) {
             System.out.println(e);}
-            return rendu;}
+
+        return rendu;}
 
     public int creerEmprunt(TableView table, Integer idLivre){  // Sert a ajouter un emprunt dans la BDD
         Usager u = (Usager) table.getSelectionModel().getSelectedItem();
@@ -115,7 +116,6 @@ public class EmpruntController {
         String dateFin = Emprunt.rendrePour(date, u.categorie);
         if (u.possibleEmprunt()){ // Vérifie si la personne voulant l'emprunter est sur liste rouge ou a déjà emprunter trop de livres.
             System.out.println("Emprunt possible !");
-
             try {
                 Connection conn = DataBase.getConnection();
                 PreparedStatement ps = conn.prepareStatement("INSERT INTO EMPRUNT(`DATE Debut`,`Date FIN`, `ID SUPPORT`, `ID USAGER`) VALUES(?,?,?,?)");

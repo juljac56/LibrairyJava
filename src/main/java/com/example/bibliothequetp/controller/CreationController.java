@@ -65,7 +65,7 @@ public class CreationController {
         try {
             Livre livre = new Livre(livreId);
             livre.supprimer();
-        } catch (SQLException e) {
+        } catch (Exception e) {
             e.printStackTrace();
         }}
 

@@ -8,6 +8,7 @@ import com.example.bibliothequetp.model.Categorie;
 import com.example.bibliothequetp.model.DataBase;
 import com.example.bibliothequetp.model.Livre;
 import com.example.bibliothequetp.model.Usager;
+import javafx.beans.binding.Bindings;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.collections.transformation.FilteredList;
@@ -111,6 +112,9 @@ public class ConsulterCategories extends CycledView {
             SortedList<Categorie> sortedData = new SortedList<>(filteredData);
             sortedData.comparatorProperty().bind(table.comparatorProperty());
             table.setItems(sortedData);
+            table.setFixedCellSize(35);
+            table.setColumnResizePolicy(TableView.CONSTRAINED_RESIZE_POLICY);
+            table.prefHeightProperty().bind(Bindings.size(table.getItems()).multiply(table.getFixedCellSize()).add(30));
             table.setEditable(true);
 
         } catch (Exception e) {

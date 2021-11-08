@@ -21,6 +21,7 @@ public class Usager {
     public int categorie;
     public Vector<Vector<String>> historique = new Vector<Vector<String>>();  // historique  = [titre, édition, date début, date fin d'emprunt]
     public int nbFoisListeRouge;
+    public int nbActuelEmprunt;
 
     public Usager(int id){
 
@@ -61,6 +62,14 @@ public class Usager {
 
             ResultSet rs2 = ps2.executeQuery();
             this.nbFoisListeRouge = rs2.getInt(1);
+
+
+            PreparedStatement ps3 = conn.prepareStatement("select COUNT(*) from `Emprunt`  WHERE `ID USAGER` = ? AND `Date FIN` = ?");
+            ps3.setInt(1, this.idUsager);
+            ps3.setString(2, "");
+            ResultSet rs3 = ps3.executeQuery();
+            this.nbActuelEmprunt = rs3.getInt(1);
+
             conn.close();
         }
         catch (Exception e){System.out.println(e);}
@@ -98,6 +107,7 @@ public class Usager {
         return (nb>nbActuelsEmprunts) && !(this.surLR());}
 
     public boolean surLR(){  // verifier si l'usager en question est sur liste rouge, et ne peut donc pas emprunter de livres
+        boolean surlr = false;
         try {
             Connection conn = DataBase.getConnection();
             PreparedStatement ps = conn.prepareStatement("select `ID Liste` from `ListeRouge/Usager` where `ID Usager` = ?");
@@ -123,21 +133,21 @@ public class Usager {
                     Collections.reverse(listct);
 
                     if (Integer.valueOf(listft.get(0)) > Integer.valueOf(listct.get(0))){
-                        return true;
+                        surlr = true;
                     }
-                    else if ((Integer.valueOf(listft.get(0)) == Integer.valueOf(listct.get(0)))  )
-                            { if (Integer.valueOf(finTableau[1]) > Integer.valueOf(currentTableau[1]) ) {
-                                    return true;}
-
-                            else if (Integer.valueOf(listft.get(1)) == Integer.valueOf(listct.get(1))){
+                    else if ((Integer.valueOf(listft.get(0)) >= Integer.valueOf(listct.get(0)))  )
+                            { if (Integer.valueOf(listft.get(1)) > Integer.valueOf(listct.get(1)) ) {
+                                surlr = true;}
+                            else if (Integer.valueOf(listft.get(1)) >= Integer.valueOf(listct.get(1))){
                                 if (Integer.valueOf(listft.get(2)) > Integer.valueOf(listct.get(2)) ){
-                                        return true;}
+                                    surlr = true;}
                     }}}}
             conn.close();
         } catch (Exception e) {
             System.out.println(e);
         }
-        return false;}
+        System.out.println(surlr);
+        return surlr;}
 
     public String getPrenom() {
         return this.prenom;

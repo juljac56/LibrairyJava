@@ -2,6 +2,7 @@ package com.example.bibliothequetp;
 
 import com.example.bibliothequetp.controller.*;
 import com.example.bibliothequetp.model.*;
+import javafx.beans.binding.Bindings;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.collections.transformation.FilteredList;
@@ -116,6 +117,9 @@ public class ConsulterListeRouge extends CycledView {
             SortedList<ListeRouge> sortedData = new SortedList<>(filteredData);
             sortedData.comparatorProperty().bind(table.comparatorProperty());
             table.setItems(sortedData);
+            table.setFixedCellSize(55);
+            table.setColumnResizePolicy(TableView.CONSTRAINED_RESIZE_POLICY);
+            table.prefHeightProperty().bind(Bindings.size(table.getItems()).multiply(table.getFixedCellSize()).add(50));
             table.setEditable(true);
 
         } catch (Exception e) {

@@ -38,7 +38,7 @@ public class Emprunt {    // un emprunt dans l'interface c'est  : titre, dateDeb
             this.cat = u.categorie;
             this.rendrepour = rendrePour(dateDebut,cat);
         }
-        catch (SQLException e) {
+        catch (Exception e) {
             e.printStackTrace();
         }}
 

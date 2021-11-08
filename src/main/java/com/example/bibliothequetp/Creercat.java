@@ -71,10 +71,8 @@ public class Creercat extends CycledView {
         gp.add(text, 2, 0);
         gp.add(btnR, 0,0);
         gp.add(buttonCreation, 4,0);
-
         gp.add(tfDuree, 0,2);
         gp.add(tfNbMax, 0,3);
-
         gp.add(labelNbMax, 1, 2);
         gp.add(labelDuree, 1, 3);
 

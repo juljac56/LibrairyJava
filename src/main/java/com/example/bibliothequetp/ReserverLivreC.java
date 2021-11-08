@@ -5,6 +5,7 @@ import com.example.bibliothequetp.controller.MainController;
 import com.example.bibliothequetp.model.DataBase;
 import com.example.bibliothequetp.model.Livre;
 import com.example.bibliothequetp.model.Usager;
+import javafx.beans.binding.Bindings;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.collections.transformation.FilteredList;
@@ -54,7 +55,6 @@ public class ReserverLivreC extends CycledView {
         final Label label = new Label("Livres");
         label.setFont(new Font("Arial", 20));
 
-
         TableColumn titreCol = new TableColumn<Livre, String>("titre");
         titreCol.setCellValueFactory(new PropertyValueFactory<Livre, String>("titre"));
         //titreCol.setCellValueFactory(cellData -> cellData.getValue().dateProperty());
@@ -65,7 +65,9 @@ public class ReserverLivreC extends CycledView {
         TableColumn editeurCol = new TableColumn("Editeur");
         editeurCol.setCellValueFactory(new PropertyValueFactory<Livre, String>("editeur"));
         TableColumn prenomAuteur = new TableColumn("Prenom");
+        prenomAuteur.setCellValueFactory(new PropertyValueFactory<Livre, String>("prenom"));
         TableColumn nomAuteur = new TableColumn("Nom");
+        nomAuteur.setCellValueFactory(new PropertyValueFactory<Livre, String>("nom"));
 
         auteurCol.getColumns().addAll(prenomAuteur, nomAuteur);
 
@@ -78,11 +80,6 @@ public class ReserverLivreC extends CycledView {
             TextField keyword = new TextField();
             Label search = new Label("Recherche");
 
-            Button btn = new Button("reserve");
-            btn.setOnAction( actionEvent -> {
-                ReserverLivreC.this.controller.reservation(table);
-            });
-
             Button btnR = new Button("Retour") {
                 @Override
                 public void fire() {
@@ -91,7 +88,7 @@ public class ReserverLivreC extends CycledView {
             };
 
         vbox.setPadding(new Insets(10, 0, 0, 10));
-        vbox.getChildren().addAll(label, table, keyword, btn, btnR);
+        vbox.getChildren().addAll(label, table, keyword, btnR);
         getChildren().addAll(vbox);
         FilteredList<Livre> filteredData = new FilteredList<Livre>(data, b -> true);
         keyword.textProperty().addListener((observable, oldValue, newValue) -> {
@@ -106,7 +103,6 @@ public class ReserverLivreC extends CycledView {
                 } else {
                     return false;
                 }
-                //else if(){}
             });
         });
 
@@ -114,6 +110,9 @@ public class ReserverLivreC extends CycledView {
         sortedData.comparatorProperty().bind(table.comparatorProperty());
 
             table.setItems(sortedData);
+            table.setFixedCellSize(35);
+            table.setColumnResizePolicy(TableView.CONSTRAINED_RESIZE_POLICY);
+            table.prefHeightProperty().bind(Bindings.size(table.getItems()).multiply(table.getFixedCellSize()).add(30));
             table.setEditable(true);
     }
         catch (Exception e) {

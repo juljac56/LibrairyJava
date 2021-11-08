@@ -23,101 +23,121 @@ public abstract class CycledView extends StackPane {
 
     public void goAdminPage(Stage stage, Usager u) {
         CycledView n = new HomeAdmin(stage,u);
+        n.setStyle("-fx-background-color: #3B5D88;");
         getScene().setRoot(n);
     }
 
     public void goClientPage(Stage stage, Usager u) {
         CycledView n = new HomeClient(stage,u);
+        n.setStyle("-fx-background-color: #3B5D88;");
         getScene().setRoot(n);
     }
 
     public void goHomePage(Stage stage, Usager u) {
         CycledView n = new home(stage,u);
+        n.setStyle("-fx-background-color: #3B5D88;");
         getScene().setRoot(n);
     }
 
     public void goLRPage(Stage stage, Usager u) {
         CycledView n = new ConsulterListeRouge(stage,u);
+        n.setStyle("-fx-background-color: #3B5D88;");
         getScene().setRoot(n);
     }
 
     public void goCatPage(Stage stage, Usager u) {
         CycledView n = new ConsulterCategories(stage,u );
+        n.setStyle("-fx-background-color: #3B5D88;");
         getScene().setRoot(n);
     }
 
     public void goGererClientPage(Stage stage, Usager u) {
         CycledView n = new ConsulterClients(stage,u);
+        n.setStyle("-fx-background-color: #3B5D88;");
         getScene().setRoot(n);
     }
 
     public void goReserverLivreAPage(Stage stage, Usager u) {
         CycledView n = new ReserverLivreA(stage, u);
+        n.setStyle("-fx-background-color: #3B5D88;");
         getScene().setRoot(n);
     }
 
     public void goCreerLivrePage(Stage stage, Usager u) {
         CycledView n = new CreerLivre(stage, u);
+        n.setStyle("-fx-background-color: #3B5D88;");
         getScene().setRoot(n);
     }
 
     public void goCreerClientPage(Stage stage, Usager u) {
         CycledView n = new CreerUsager(stage, u);
+        n.setStyle("-fx-background-color: #3B5D88;");
         getScene().setRoot(n);
     }
 
     public void goModifierCat(Stage stage, int num, int nb, int duree, Usager u) {
         CycledView n = new ModifierCat(stage, num, duree, nb, u);
+        n.setStyle("-fx-background-color: #3B5D88;");
         getScene().setRoot(n);
     }
 
     public void goModifierLivre(Stage stage, int id, String titre, int annee, String mot1, String mot2, String mot3, String mot4, String mot5, int idOeuvre, Usager u) {
         CycledView n = new ModifierLivre(stage, id, titre, annee, mot1, mot2 , mot3, mot4, mot5, idOeuvre, u);
+        n.setStyle("-fx-background-color: #3B5D88;");
         getScene().setRoot(n);
     }
 
     public void goModifierClient(Stage stage, int id, String prenom,String nom, int cat, String mail, Usager u) {
         CycledView n = new ModifierClients(stage, id, prenom, nom , cat, mail, u);
+        n.setStyle("-fx-background-color: #3B5D88;");
         getScene().setRoot(n);
     }
 
     public void goConsulterEmprunt(Stage stage, Usager u) {
         CycledView n = new ConsulterEmprunts(stage, u);
+        n.setStyle("-fx-background-color: #3B5D88;");
         getScene().setRoot(n);
     }
 
     public void goReserverLivreC(Stage stage, Usager u) {
         CycledView n = new ReserverLivreC(stage, u);
+        n.setStyle("-fx-background-color: #3B5D88;");
         getScene().setRoot(n);
     }
 
     public void goHistoriqueEmpruntUsager(Stage stage, Usager u) {
         CycledView n = new HistoriqueEmpruntUsager(stage,u);
+        n.setStyle("-fx-background-color: #3B5D88;");
         getScene().setRoot(n);
     }
 
     public void goCreerCategoriePage(Stage stage, Usager u) {
         CycledView n = new Creercat(stage, u);
+        n.setStyle("-fx-background-color: #3B5D88;");
         getScene().setRoot(n);
     }
 
     public void goAjouterLR(Stage stage, int id, Usager u) {
         CycledView n = new CreerLR(stage, id, u);
+        n.setStyle("-fx-background-color: #3B5D88;");
         getScene().setRoot(n);
     }
 
     public void goCreerEmprunt(Stage stage, int id, Usager u){
         CycledView n = new CreerEmprunt(stage, id, u);
+        n.setStyle("-fx-background-color: #3B5D88;");
         getScene().setRoot(n);
     }
 
     public void goVoirDetails(Stage stage, int id, Usager u){
         CycledView n = new VoirDetails(stage, id, u);
+        n.setStyle("-fx-background-color: #3B5D88;");
         getScene().setRoot(n);
     }
 
     public void goLoginPage(Stage stage){
         CycledView n = new Login(stage);
+        n.setStyle("-fx-background-color: #3B5D88;");
         getScene().setRoot(n);
     }
 

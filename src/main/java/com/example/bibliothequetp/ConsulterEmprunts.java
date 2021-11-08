@@ -6,6 +6,7 @@ import com.example.bibliothequetp.controller.MainController;
 import com.example.bibliothequetp.model.Emprunt;
 import com.example.bibliothequetp.model.Livre;
 import com.example.bibliothequetp.model.Usager;
+import javafx.beans.binding.Bindings;
 import javafx.collections.ObservableList;
 import javafx.collections.transformation.FilteredList;
 import javafx.collections.transformation.SortedList;
@@ -103,6 +104,9 @@ public class ConsulterEmprunts extends CycledView {
             sortedData.comparatorProperty().bind(table.comparatorProperty());
 
             table.setItems(sortedData);
+            table.setFixedCellSize(35);
+            table.setColumnResizePolicy(TableView.CONSTRAINED_RESIZE_POLICY);
+            table.prefHeightProperty().bind(Bindings.size(table.getItems()).multiply(table.getFixedCellSize()).add(30));
             table.setEditable(true);
         }
         catch(Exception e){e.printStackTrace();}
@@ -120,13 +124,10 @@ public class ConsulterEmprunts extends CycledView {
            goConsulterEmprunt(stage,u);
         });
 
-        gp.add(btnR,1,0);
+        gp.add(btnR,0,1);
 
         final VBox vbox = new VBox();
         vbox.setSpacing(5);
-
-
-
         vbox.setPadding(new Insets(10, 0, 0, 10));
         vbox.getChildren().addAll(gp, table, btnRendreLivre, keyword);
 

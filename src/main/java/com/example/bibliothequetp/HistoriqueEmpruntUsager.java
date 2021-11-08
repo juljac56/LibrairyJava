@@ -6,6 +6,7 @@ import com.example.bibliothequetp.controller.MainController;
 import com.example.bibliothequetp.model.Emprunt;
 import com.example.bibliothequetp.model.Livre;
 import com.example.bibliothequetp.model.Usager;
+import javafx.beans.binding.Bindings;
 import javafx.collections.ObservableList;
 import javafx.geometry.Insets;
 import javafx.scene.control.Button;
@@ -63,6 +64,9 @@ public class HistoriqueEmpruntUsager extends CycledView {
             data = empruntController.empruntUsager(u.getIdUsager());
             table.getColumns().addAll(titreCol,titreDateDeb,titreDateFin);
             table.setItems(data);
+            table.setFixedCellSize(35);
+            table.setColumnResizePolicy(TableView.CONSTRAINED_RESIZE_POLICY);
+            table.prefHeightProperty().bind(Bindings.size(table.getItems()).multiply(table.getFixedCellSize()).add(30));
             table.setEditable(true);
 
         }
@@ -74,7 +78,7 @@ public class HistoriqueEmpruntUsager extends CycledView {
                 goClientPage(stage, u);
             }
         };
-        gp.add(btnR,1,0);
+        gp.add(btnR,0,1);
 
         final VBox vbox = new VBox();
         vbox.setSpacing(5);

@@ -2,6 +2,7 @@ package com.example.bibliothequetp;
 
 import com.example.bibliothequetp.controller.*;
 import com.example.bibliothequetp.model.Usager;
+import javafx.beans.binding.Bindings;
 import javafx.collections.ObservableList;
 import javafx.collections.transformation.FilteredList;
 import javafx.collections.transformation.SortedList;
@@ -97,6 +98,9 @@ public class CreerEmprunt extends CycledView {
                 SortedList<Usager> sortedData = new SortedList<>(filteredData);
                 sortedData.comparatorProperty().bind(table.comparatorProperty());
                 table.setItems(sortedData);
+                table.setFixedCellSize(35);
+                table.setColumnResizePolicy(TableView.CONSTRAINED_RESIZE_POLICY);
+                table.prefHeightProperty().bind(Bindings.size(table.getItems()).multiply(table.getFixedCellSize()).add(30));
                 table.setEditable(true);
                 Button buttonCreation = new Button("Créer Emprunt");
                 buttonCreation.setOnAction(action -> {
@@ -107,7 +111,9 @@ public class CreerEmprunt extends CycledView {
                         Text empruntCree = new Text("Livre emprunté ! ");
                         vbox.getChildren().addAll( empruntCree);
                     }
-                    else{ System.out.println("Problème d'emprunt");}
+                    else{ Text empruntCree = new Text("Impossible d'emprunter ");
+                        vbox.getChildren().addAll( empruntCree);
+                        System.out.println("Problème d'emprunt");}
                 });
                 vbox.getChildren().addAll( buttonCreation);
             } catch (Exception e) {

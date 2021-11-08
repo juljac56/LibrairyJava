@@ -30,6 +30,7 @@ public class HomeAdmin extends CycledView {
 
         Text text = new Text();
         text.setText("Page Admin");
+        Text textBienvenue = new Text("Bienvenue "+ u.getPrenom()+ " "+ u.getNom());
 
         Button btnR = new Button("Retour") {
             @Override
@@ -76,6 +77,7 @@ public class HomeAdmin extends CycledView {
 
         gp.add(text, 0, 0, 2, 1);
         gp.add(btnR, 0,1);
+        gp.add(textBienvenue, 2,1, 2,1);
         gp.add(btn, 0,2);
         gp.add(btnCat,0,3);
         gp.add(btnLR,0,4);

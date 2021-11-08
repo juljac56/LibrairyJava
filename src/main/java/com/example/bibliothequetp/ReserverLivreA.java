@@ -7,6 +7,7 @@ import com.example.bibliothequetp.controller.MainController;
 import com.example.bibliothequetp.model.DataBase;
 import com.example.bibliothequetp.model.Livre;
 import com.example.bibliothequetp.model.Usager;
+import javafx.beans.binding.Bindings;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.collections.transformation.FilteredList;
@@ -74,13 +75,14 @@ public class ReserverLivreA extends CycledView {
         prenomAuteur.setCellValueFactory(new PropertyValueFactory<Livre, String>("prenom"));
         TableColumn nomAuteur = new TableColumn("Nom");
         nomAuteur.setCellValueFactory(new PropertyValueFactory<Livre, String>("nom"));
+        TableColumn renduCol = new TableColumn("Rendu");
+        renduCol.setCellValueFactory(new PropertyValueFactory<Livre, String>("rendu"));
 
         auteurCol.getColumns().addAll(prenomAuteur, nomAuteur);
 
         try {
 
             data = getLivreList();
-
             table.getColumns().addAll(titreCol, anneeCol, auteurCol, editeurCol);
 
             final VBox vbox = new VBox();
@@ -154,8 +156,6 @@ public class ReserverLivreA extends CycledView {
                         return false;
                     }
                     //else if(){}
-
-
                 });
             });
 
@@ -163,6 +163,9 @@ public class ReserverLivreA extends CycledView {
             sortedData.comparatorProperty().bind(table.comparatorProperty());
 
             table.setItems(sortedData);
+            table.setFixedCellSize(35);
+            table.setColumnResizePolicy(TableView.CONSTRAINED_RESIZE_POLICY);
+            table.prefHeightProperty().bind(Bindings.size(table.getItems()).multiply(table.getFixedCellSize()).add(30));
             table.setEditable(true);
 
 
