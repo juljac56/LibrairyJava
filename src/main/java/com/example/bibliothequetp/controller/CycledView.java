@@ -8,15 +8,14 @@ import javafx.scene.control.TableView;
 import javafx.scene.layout.StackPane;
 import javafx.stage.Stage;
 
-import java.util.Vector;
+// Sert à naviguer de page en page.
 
-public abstract class CycledView extends StackPane { // Choose whatever is most appropriate class
+public abstract class CycledView extends StackPane {
     public CycledView(Stage stage) {
         this.stage = stage;
     }
 
-    public abstract void createGUI();
-
+    public abstract void createGUI();  // sert à créer l'interface graphique
 
     protected void callNext(CycledView n) {
         getScene().setRoot(n);
@@ -117,9 +116,6 @@ public abstract class CycledView extends StackPane { // Choose whatever is most 
         getScene().setRoot(n);
     }
 
-
-
     public Stage stage;
     public CycledView retour;
-
 }

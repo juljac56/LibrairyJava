@@ -13,27 +13,27 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.Vector;
 
+// Controller pour gérer la liste rouge, ie, la liste interdisant les emprunts de certains utilisateurs pour une certaine durée
+
 public class ListeRougeController {
 
-    public static ObservableList<ListeRouge> listeRouge() {  // retourne l'historique de liste rouge pour un usager donné (son id)
+    public static ObservableList<ListeRouge> listeRouge() {  // retourne l'historique de liste rouge
         ObservableList<ListeRouge> liste = ListeRouge.listeRougeTotal();
         return liste;
-
     }
 
-    public void ListeRDetails(TableView table){
+    public void ListeRDetails(TableView table){  // méthode test
         ListeRouge lr = (ListeRouge) table.getSelectionModel().getSelectedItem();
         System.out.println(lr.nom);
     }
 
-    public Integer debutAjoutLR(TableView table){
+    public Integer debutAjoutLR(TableView table){  // Début d'ajout d'un client dans la LR après qu'il ait été sélectionné
         Usager u = (Usager) table.getSelectionModel().getSelectedItem();
         Integer idUsager = u.getIdUsager();
-        System.out.println("id usss" + idUsager);
         return idUsager;
     }
 
-    public int ajoutLR(int id, String debut, String fin){
+    public int ajoutLR(int id, String debut, String fin){  // Ajout d'un client dans la liste rouge dans la BDD
         int succes = 0;
         try {
             Connection conn = DataBase.getConnection();
@@ -41,7 +41,6 @@ public class ListeRougeController {
             ps.setString(1,debut);
             ps.setString(2,fin);
             succes = ps.executeUpdate();
-            System.out.println("succes "+succes);
 
             PreparedStatement ps0 = conn.prepareStatement("Select `ID LISTEROUGE` FROM LISTEROUGE  WHERE `DATE DEBUT` = ? AND `DATE FIN` = ?");
             ps0.setString(1,debut);
@@ -54,7 +53,6 @@ public class ListeRougeController {
             ps1.setInt(1,idLR);
             ps1.setInt(2,id);
             succes = ps1.executeUpdate();
-            System.out.println("succes "+succes);
 
             conn.close();
 
@@ -64,7 +62,7 @@ public class ListeRougeController {
         return succes;
     }
 
-    public int supprimerLR(TableView table){
+    public int supprimerLR(TableView table){  // Enlever un client de la liste rouge
         int succes;
         ListeRouge lr = (ListeRouge) table.getSelectionModel().getSelectedItem();
         succes = lr.supprimer();

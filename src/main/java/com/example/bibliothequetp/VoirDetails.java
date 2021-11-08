@@ -16,7 +16,7 @@ import javafx.stage.Stage;
 
 import java.util.concurrent.atomic.AtomicReference;
 
-
+// Classe servant à montrer les détails d'un livre, ie, affiche tous les auteurs de ce livre, les mots-clés etc...
 public class VoirDetails extends CycledView {
 
     EmpruntController controller = new EmpruntController();
@@ -70,14 +70,9 @@ public class VoirDetails extends CycledView {
             }
         };
 
-        //gp.add(btnR,1,0);
-
-        //gp.add(empruntenCours,2,2);
         vbox.getChildren().addAll( btnR);
         getChildren().addAll(vbox);
-        //getChildren().add(gp);
     }
-
     }
 
 

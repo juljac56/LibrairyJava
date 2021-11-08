@@ -21,18 +21,9 @@ import javafx.scene.layout.VBox;
 import javafx.scene.text.Font;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
-import org.w3c.dom.events.MouseEvent;
-
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.util.List;
-import java.util.Locale;
 import java.util.Vector;
 
-import static java.lang.String.valueOf;
-
+// View servant à consulter les catégories disponibles, sous forme de tableau
 
 public class ConsulterCategories extends CycledView {
 
@@ -42,12 +33,9 @@ public class ConsulterCategories extends CycledView {
 
     public ConsulterCategories(Stage stage) {
         super(stage);
-        createGUI();
-    }
+        createGUI();}
 
     public void createGUI() {
-        System.out.println("table" + this.table);
-
         GridPane gp = new GridPane();
         gp.setPadding(new Insets(20));
         gp.setHgap(25);
@@ -56,6 +44,7 @@ public class ConsulterCategories extends CycledView {
         final Label label = new Label("Catégories");
         label.setFont(new Font("Arial", 20));
 
+        // creation des colonnes de notre tableau
 
         TableColumn catCol = new TableColumn("Catégorie");
         catCol.setCellValueFactory(new PropertyValueFactory<Categorie, Integer>("idCategorie"));
@@ -66,7 +55,6 @@ public class ConsulterCategories extends CycledView {
         dureeCol.setCellValueFactory(new PropertyValueFactory<Categorie, Integer>("dureeMax"));
 
         try {
-
             data = controller.banqueCategorie();
             table.getColumns().addAll(catCol, nbCol, dureeCol);
 
@@ -74,19 +62,20 @@ public class ConsulterCategories extends CycledView {
             vbox.setSpacing(5);
             TextField keyword = new TextField();
             Label search = new Label("Recherche");
-
             Button btn = new Button("Modifier");
             btn.setOnAction(actionEvent -> {
                 Vector<Integer> v = controller.debutModifierCat(table);
                 goModifierCat(stage,v.get(0),v.get(1), v.get(2));
             });
 
+            // boutton de retour vers la page précédente
             Button btnR = new Button("Retour") {
                 @Override
                 public void fire() {
                     goAdminPage(stage);
                 }
             };
+            // boutton servant à créer une nouvelle catégorie
             Button btnCreerCat = new Button("Créer une Catégorie") {
                 @Override
                 public void fire() {
@@ -94,14 +83,13 @@ public class ConsulterCategories extends CycledView {
                 }
             };
 
-
             vbox.setPadding(new Insets(10, 0, 0, 10));
             vbox.getChildren().addAll(label, table, keyword, btn, btnR, btnCreerCat);
 
             getChildren().addAll(vbox);
             FilteredList<Categorie> filteredData = new FilteredList<Categorie>(data, b -> true);
 
-
+            // creation de la barre de recherche
             keyword.textProperty().addListener((observable, oldValue, newValue) -> {
                 filteredData.setPredicate(cat -> {
                     if (newValue.isBlank() || newValue.isBlank() || newValue == null) {
@@ -113,23 +101,15 @@ public class ConsulterCategories extends CycledView {
                         return true;
                     } else {
                         return false;
-                    }
-                    //else if(){}
-
-
-                });
+                    }});
             });
 
             SortedList<Categorie> sortedData = new SortedList<>(filteredData);
             sortedData.comparatorProperty().bind(table.comparatorProperty());
-
             table.setItems(sortedData);
             table.setEditable(true);
-
 
         } catch (Exception e) {
             e.printStackTrace();
         }
-    }
-
-}
+    }}

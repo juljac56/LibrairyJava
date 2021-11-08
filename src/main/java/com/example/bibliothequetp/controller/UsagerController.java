@@ -11,9 +11,11 @@ import java.sql.ResultSet;
 import java.util.Iterator;
 import java.util.Vector;
 
+// Controller gérants les clients de la bibliothèques
+
 public class UsagerController {
 
-    public Vector<Usager> usagers;   // tous les emprunts passés et en cours
+    public Vector<Usager> usagers;   // vector donnant les clients enregistrés dans la BDD
     int idUsager;
 
     public UsagerController() {
@@ -25,18 +27,13 @@ public class UsagerController {
 
             while (rs.next()) {
                 idUsager = rs.getInt(1);
-
-
                 Usager usager = new Usager(idUsager);
                 usagers.add(usager);
             }
             conn.close();
         } catch (Exception e) {
-            System.out.println(e);
-        }
-
+            System.out.println(e); }
     }
-
 
     public ObservableList<Usager> banqueUsagers(){      // retourne les usagers enregistrés dans la BDD
         ObservableList<Usager> liste = FXCollections.observableArrayList();
@@ -45,24 +42,20 @@ public class UsagerController {
         while (val.hasNext()) {
             Usager u = (Usager) val.next();
                 liste.add(u);
-
         }
-        return liste;
-    }
+        return liste;}
 
-    public void clientsDetails(TableView table){
+    public void clientsDetails(TableView table){  // methode test pour tester l'action des boutons de l'interface
         Usager u = (Usager) table.getSelectionModel().getSelectedItem();
-        System.out.println(u.nom);
     }
 
-    public void supprimerClient(TableView table){
+    public void supprimerClient(TableView table){ // sert à supprimer des clients de la BDD
         Usager u = (Usager) table.getSelectionModel().getSelectedItem();
         int succes = 0;
         succes = u.supprimer();
-
     }
 
-    public Vector<Object> debutModifierClient(TableView table){
+    public Vector<Object> debutModifierClient(TableView table){  // methode appelée pour modifier le client sélectionné pour modification
         Vector<Object> v = new Vector<>();
         Usager c = (Usager) table.getSelectionModel().getSelectedItem();
         int id = c.getIdUsager();
@@ -77,10 +70,10 @@ public class UsagerController {
         v.add(cat);
         v.add(mail);
 
-        return v;
+        return v;  // renvoie un vector contenant les donnees utiles pour modifier un client
     }
 
-    public int modifierClient(int id, String prenom, String nom, int cat, String mail){
+    public int modifierClient(int id, String prenom, String nom, int cat, String mail){  // modifie un client dans la BDD
         int succes = 0;
         try {
             Connection conn = DataBase.getConnection();
@@ -92,16 +85,11 @@ public class UsagerController {
             ps.setInt(5,id);
 
             succes = ps.executeUpdate();
-            System.out.println("succes "+succes);
-
             conn.close();
 
         } catch (Exception e) {
             System.out.println(e);
         }
-        return succes;
-    }
-
-
+        return succes;}
 }
 

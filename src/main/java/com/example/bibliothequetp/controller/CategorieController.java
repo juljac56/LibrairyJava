@@ -6,18 +6,19 @@ import com.example.bibliothequetp.model.Usager;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.scene.control.TableView;
-
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.util.Iterator;
 import java.util.Vector;
 
+
+// fichier servant de controller pour la gestion des catégories dans la bibliothèque
+
 public class CategorieController {
     public Vector<Categorie> categories;
 
     public CategorieController() {
-
         this.categories = new Vector<Categorie>();
         try {
             Connection conn = DataBase.getConnection();
@@ -37,21 +38,17 @@ public class CategorieController {
 
     public ObservableList<Categorie> banqueCategorie() {      // retourne les catégories enregistrés dans la BDD
         ObservableList<Categorie> liste = FXCollections.observableArrayList();
-
         Iterator val = this.categories.iterator();
         while (val.hasNext()) {
             Categorie c = (Categorie) val.next();
-            liste.add(c);
-        }
-        return liste;
-    }
+            liste.add(c);}
+        return liste;}
 
     public void catDetails(TableView table){
         Categorie c = (Categorie) table.getSelectionModel().getSelectedItem();
-        System.out.println(c.idCategorie);
     }
 
-    public Vector<Integer> debutModifierCat(TableView table){
+    public Vector<Integer> debutModifierCat(TableView table){  // fonction appellée après qu'une catégorie a été sélectionné pour modification
         Vector<Integer> v = new Vector<>();
         Categorie c = (Categorie) table.getSelectionModel().getSelectedItem();
         int id = c.idCategorie;
@@ -60,30 +57,20 @@ public class CategorieController {
         v.add(id);
         v.add(nb);
         v.add(duree);
-
-        return v;
+        return v;  // renvoie un vector avec les informations nécessaires de la catégorie pour la modifier
     }
 
-    public int modifierCat(int id, int duree, int nb){
+    public int modifierCat(int id, int duree, int nb){  // modification de la catégorie dans la BDD
         int succes = 0;
         try {
             Connection conn = DataBase.getConnection();
             PreparedStatement ps = conn.prepareStatement("UPDATE CATEGORIE SET DUREE = ?,`NB MAX`= ? WHERE `ID CATEGORIE` = ?;");
-            System.out.println("ok1");
             ps.setInt(1,duree);
-            System.out.println("ok2");
             ps.setInt( 2, nb);
-            System.out.println("ok3");
             ps.setInt( 3, id);
-            System.out.println("ok4");
             succes = ps.executeUpdate();
-            System.out.println("succes "+succes);
-
-            conn.close();
-
-        } catch (Exception e) {
-            System.out.println(e);
-        }
+            conn.close();}
+        catch (Exception e) {
+            System.out.println(e);}
         return succes;
-    }
-}
+    }}

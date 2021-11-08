@@ -9,6 +9,8 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.Vector;
 
+//Définit la classe catégorie qui permet de définir les nombres d'emprunts, la durée maximale d'emprunt
+
 public class Categorie {  // une catégorie c'est un numéro (id), un nb max d'emprunt, une durée maximale (en jours) pour chaque emprunt
 
     public int idCategorie;
@@ -43,7 +45,7 @@ public class Categorie {  // une catégorie c'est un numéro (id), un nb max d'e
         return nbMax;
     }
 
-    public static int ajoutCatBDD(Integer nb, Integer dureeMax) {
+    public static int ajoutCatBDD(Integer nb, Integer dureeMax) {  // méthode d'ajout de catégorie dans une BDD
         int succes = 0;
 
         try {
@@ -52,31 +54,25 @@ public class Categorie {  // une catégorie c'est un numéro (id), un nb max d'e
             ps.setInt(1, dureeMax);
             ps.setInt(2, nb);
             succes = ps.executeUpdate();
-
             conn.close();
         } catch (Exception e) {
-            System.out.println(e);
-        }
+            System.out.println(e);}
         return succes;
     }
 
-    public static Vector<Categorie> tousCat(){
+    public static Vector<Categorie> tousCat(){  // renvoie un vector avec tous les ids des catégories existantes
         Vector<Categorie> categories = new Vector<Categorie>();
         try {
-
             Connection conn = DataBase.getConnection();
             PreparedStatement ps= conn.prepareStatement("SELECT `ID CATEGORIE` FROM CATEGORIE");
             ResultSet rs = ps.executeQuery();
 
             while (rs.next()){
                 Categorie c = new Categorie(rs.getInt(1));
-                categories.add(c);
-            }
-            conn.close();
-        }
+                categories.add(c);}
+            conn.close();}
+
         catch (Exception e) {
-            e.printStackTrace();
-        }
-        return categories;
-    }
+            e.printStackTrace(); }
+        return categories;}
 }

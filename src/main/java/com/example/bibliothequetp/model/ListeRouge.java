@@ -8,6 +8,9 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.util.Iterator;
 
+
+// Classe définissant la liste rouge, ie, la liste des membres interdits d'emprunts
+
 public class ListeRouge {
 
     public String nom;
@@ -17,11 +20,8 @@ public class ListeRouge {
     public int idListeR;
     public int idUsager;
 
-
     public ListeRouge(int id){
-
         this.idListeR = id;
-
         try {
             Connection conn = DataBase.getConnection();
             PreparedStatement ps0 = conn.prepareStatement("select * from LISTEROUGE WHERE `ID LISTEROUGE` = ?");
@@ -33,21 +33,16 @@ public class ListeRouge {
 
             PreparedStatement ps1 = conn.prepareStatement("select * from `ListeRouge/Usager` WHERE `ID Liste` = ?");
             ps1.setInt(1,id);
-
             ResultSet rs1 = ps1.executeQuery();
 
-            while (rs1.next()){    // gives title and year
+            while (rs1.next()){
                 this.idUsager = rs1.getInt(2);
-
                 Usager u = new Usager(this.idUsager);
                 this.nom = u.nom;
                 this.prenom = u.prenom;
-                System.out.println("Id Usager ::: " + u.nom);
-
             }
             conn.close();
         }
-
         catch(Exception e){System.out.println(e);}
     }
 
@@ -78,7 +73,6 @@ public class ListeRouge {
         try {
             Connection conn = DataBase.getConnection();
             PreparedStatement ps2 = conn.prepareStatement("select `ID LISTEROUGE` from LISTEROUGE");
-
             ResultSet rs2 = ps2.executeQuery();
 
             while (rs2.next()){
@@ -86,13 +80,12 @@ public class ListeRouge {
                 ListeRouge LR = new ListeRouge(idLr);
                 liste.add(LR);
             }
-            conn.close();
-        }
+            conn.close();}
         catch(Exception e){System.out.println(e);}
         return liste;
     }
 
-    public int supprimer(){
+    public int supprimer(){  // supprimer un membre de la liste rouge, en cas d'erreur de saisie
         int succes  = 0;
         try {
             Connection conn = DataBase.getConnection();
@@ -111,26 +104,22 @@ public class ListeRouge {
         return succes;
     };
 
+    // fonctions  get
+
     public String getNom() {
         return nom;
     }
-
     public String getPrenom() {
-        return prenom;
-    }
-
+        return prenom;}
     public int getIdUsager() {
         return idUsager;
     }
-
     public String getDateDebut() {
         return dateDebut;
     }
-
     public String getDateFin() {
         return dateFin;
     }
-
     public int getIdListeR(){
         return idListeR;
     }

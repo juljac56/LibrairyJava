@@ -10,6 +10,8 @@ import java.util.Collections;
 import java.util.Date;
 import java.util.List;
 
+// classe définissant les emprunts faits par les clients
+
 public class Emprunt {    // un emprunt dans l'interface c'est  : titre, dateDebut, DateFIn, usager (nom/prenom)
     public String dateFin;
     public String dateDebut;
@@ -38,21 +40,9 @@ public class Emprunt {    // un emprunt dans l'interface c'est  : titre, dateDeb
         }
         catch (SQLException e) {
             e.printStackTrace();
-        }
+        }}
 
-        String dateSupposeFin = rendrePour(dateDebut,cat);
-
-        DateFormat df = new SimpleDateFormat("dd/MM/yyyy");
-        String date = df.format(new Date());
-        String[] finTableau = dateSupposeFin.split("/");
-        String[] currentTableau = date.split("/");
-        Collections.reverse(List.of(finTableau));
-        Collections.reverse(List.of(currentTableau));
-
-
-    }
-
-    public boolean empruntRendu() {
+    public boolean empruntRendu() {  // renvoie un boolean indiquant si le support en question a été rendu ou non, en fonction de la date de retour enregistrée dans la BDD
         if (this.dateFin == null || this.dateFin.length() == 0) {
             return false;
         } else {
@@ -64,23 +54,19 @@ public class Emprunt {    // un emprunt dans l'interface c'est  : titre, dateDeb
     public void setTitre(String titre) {
         this.titre = titre;
     }
-
     public String getDateFin(){return this.dateFin;}
     public String getDateDebut(){return this.dateDebut;}
-
     public String getPrenom() {
         return prenom;
     }
-
     public String getNom() {
         return nom;
     }
-
     public String getRendrepour() {
         return rendrepour;
     }
 
-    public static String rendrePour(String dateDebut, int idCat ){
+    public static String rendrePour(String dateDebut, int idCat ){  // méthode calculant la date maximale de retour, en fonction de la catégorie auquel appartient le client et en fonction de la fate de début d'emprunt
 
         String[] debutTableau = dateDebut.split("/");
         System.out.println(debutTableau[1]);
@@ -91,13 +77,13 @@ public class Emprunt {    // un emprunt dans l'interface c'est  : titre, dateDeb
         boolean moisajout = false;
         boolean anneeajout = false;
 
-        int j = Integer.parseInt(debutTableau[0]);
-        int m = Integer.parseInt(debutTableau[1]);
+        int j = Integer.parseInt(debutTableau[0]); //jour
+        int m = Integer.parseInt(debutTableau[1]);  // mois
         System.out.println(m);
-        int a = Integer.parseInt(debutTableau[2]);
+        int a = Integer.parseInt(debutTableau[2]);  // annee
 
-        if (m != 2){
-        if (JoursPlus+j <= 30 ) {
+        if (m != 2){  // si le mois n'est pas Fevrier qui a 28 jours (le 29 n'est pas pris en compte)
+        if (JoursPlus+j <= 30 ) {  // on considère que les mois finissent tous le 30 par simplicité
             Integer somme = j+JoursPlus;
             fin += somme.toString() +"/"+m+"/"+a;}
         else{
@@ -106,25 +92,21 @@ public class Emprunt {    // un emprunt dans l'interface c'est  : titre, dateDeb
                 Integer reste = 30-JoursPlus-j;
                 fin += reste.toString() +"/"+m+"/"+a;}
 
-            else{
+            else{   // on change d'année
                 m = 1;
                 a = a+1;
                 Integer reste = 30-JoursPlus-j;
                 fin += reste.toString() +"/"+m+"/"+a;}
             }
         }
-        else{
+        else{  // si on est en fécrier, faire pareil mais avec 28
             if (JoursPlus+j <= 28 ) {
                 Integer somme = j+JoursPlus;
                 fin += somme.toString() +"/"+m+"/"+a;}
-            else{
-                    m =m+1;
+            else{   m =m+1;
                     Integer reste = 28-JoursPlus-j;
-                    fin += reste.toString() +"/"+m+"/"+a;}
-        }
-        return fin;
-        }
-
+                    fin += reste.toString() +"/"+m+"/"+a;}}
+        return fin;}
     }
 
 

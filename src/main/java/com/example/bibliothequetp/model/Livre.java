@@ -9,6 +9,7 @@ import java.sql.SQLException;
 import java.util.Iterator;
 import java.util.Vector;
 
+// classe définissant les support
 public class Livre {
     public String titre;
     public int annee;
@@ -40,8 +41,6 @@ public class Livre {
         this.ISBN = rs0.getInt(1);
         this.ISBN = ISBN;
         this.auteur = new Vector<String>();
-
-
 
         PreparedStatement ps = conn.prepareStatement("select * from  EDITION WHERE ISBN = ? ");
         ps.setInt(1,ISBN);
@@ -113,7 +112,7 @@ public class Livre {
         return aut;
     }
 
-    public String listeMots(){  // renvoie un string de tous les auteurs (Nom puis prenoms)
+    public String listeMots(){  // renvoie un string de tous les auteurs (prenoms puis noms)
 
         if (mot3 == null || mot3.length() == 0 ){
             mot3 = " non renseigné ";
@@ -134,7 +133,8 @@ public class Livre {
 
 
     public static int ajoutlivreBDD(String titre, int annee, int ISBN, Vector<String> auteurp, Vector<String> auteurn, String edition, String mot1,String mot2,String mot3,String mot4, String mot5) {
-
+        // ajout un support à la BDD
+        // Une oeuvre peut avoir plusieurs supports différents, il faut donc vérifier si l'oeuvre n'est pas déjà existante avant de la créer avec le support
         int succes = 0;
         int idEditeurAjout;
         int idOeuvreAjout;
@@ -174,7 +174,7 @@ public class Livre {
             ResultSet rs2 = ps2.executeQuery();
 
 
-            if (rs2.next() == false) {
+            if (rs2.next() == false) {  // on l'insère s'il n'existe pas encore
                 PreparedStatement ps3 = conn.prepareStatement("INSERT INTO EDITEUR(NOM) values (?) ");
                 ps3.setString(1, edition);
                 ps3.executeUpdate();
@@ -248,7 +248,7 @@ public class Livre {
         return succes;
     }
 
-    public void supprimer(){
+    public void supprimer(){  // suppression d'un support
         try {
             Connection conn = DataBase.getConnection();
             PreparedStatement ps= conn.prepareStatement("delete from SUPPORT where `ID SUPPORT` = ? ");
@@ -264,58 +264,33 @@ public class Livre {
             // Supprimer un livre c'est : supprimer le support (le reste est gardé)
     }
 
+    // fonctions get
     public String getTitre(){
         return this.titre;
     }
-
     public void setTitre(String titre) {
         this.titre = titre;
     }
-
     public String getEditeur(){
         return this.editeur;
     }
-
     public void setEditeur(String editeur) {
         this.editeur = editeur;
     }
-
     public String getNom() {
         return nom;
     }
     public String getPrenom() {
         return prenom;
     }
-    /* public String getAuteurp(){
-        return this.titre;
-    }
-
-    public void setAuteurp(String titre) {
-        this.titre = titre;
-    }
-
-    public String getAuteurp(){
-        return this.titre;
-    }
-
-    public void setAuteurp(String titre) {
-        this.titre = titre;
-    }
-
-     */
-
     public int getId(){return this.id;}
     public int getAnnee(){
         return this.annee;
     }
-
     public void setAnnee(Integer annee) {
         this.annee = annee;
     }
-
-    public int getIdOeuvre() {
-        return idOeuvre;
-    }
+    public int getIdOeuvre() {return idOeuvre;}
 }
 
 
