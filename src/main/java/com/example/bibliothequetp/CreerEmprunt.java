@@ -23,10 +23,12 @@ public class CreerEmprunt extends CycledView {
     int idLivre;
     ObservableList<Usager> data;
     TableView table;
-    public CreerEmprunt(Stage stage, int idL) {
+    Usager u;
+    public CreerEmprunt(Stage stage, int idL, Usager u) {
         super(stage);
         this.idLivre = idL;
         this.table = new TableView();
+        this.u = u;
         createGUI();
     }
 
@@ -42,7 +44,6 @@ public class CreerEmprunt extends CycledView {
 
         Text empruntenCours = new Text("");
 
-
         final VBox vbox = new VBox();
         vbox.setSpacing(5);
         TextField keyword = new TextField();
@@ -52,7 +53,6 @@ public class CreerEmprunt extends CycledView {
 
         if (controller.verifierEmprunt(idLivre)){
             empruntenCours = new Text("Livre disponible");
-
 
             TableColumn nomCol = new TableColumn<Usager, String>("Nom");
             nomCol.setCellValueFactory(new PropertyValueFactory<Usager, String>("nom"));
@@ -72,15 +72,11 @@ public class CreerEmprunt extends CycledView {
 
             UsagerCol.getColumns().addAll(prenomCol, nomCol);
 
-
-
             try {
                 data = UsagerController.banqueUsagers();
                 table.getColumns().addAll(UsagerCol, emailCol, listeRCol, catCol);
 
-
                 vbox.getChildren().addAll( table, keyword);
-
                 FilteredList<Usager> filteredData = new FilteredList<Usager>(data, b -> true);
 
                 keyword.textProperty().addListener((observable, oldValue, newValue) -> {
@@ -100,10 +96,8 @@ public class CreerEmprunt extends CycledView {
 
                 SortedList<Usager> sortedData = new SortedList<>(filteredData);
                 sortedData.comparatorProperty().bind(table.comparatorProperty());
-
                 table.setItems(sortedData);
                 table.setEditable(true);
-
                 Button buttonCreation = new Button("Créer Emprunt");
                 buttonCreation.setOnAction(action -> {
                     int succes = controller.creerEmprunt(table, idLivre);
@@ -115,30 +109,21 @@ public class CreerEmprunt extends CycledView {
                     }
                     else{ System.out.println("Problème d'emprunt");}
                 });
-
                 vbox.getChildren().addAll( buttonCreation);
-
             } catch (Exception e) {
                 e.printStackTrace();
-            }
+            }}
 
-        }
         else{System.out.println("non disponible");
             empruntenCours = new Text("Livre non disponible");}
-
 
         Button btnR = new Button("Retour") {
             @Override
             public void fire() {
-                goReserverLivreAPage(stage);
+                goReserverLivreAPage(stage, u);
             }
         };
-
-        //gp.add(btnR,1,0);
-
-        //gp.add(empruntenCours,2,2);
         vbox.getChildren().addAll( btnR, empruntenCours);
         getChildren().addAll(vbox);
-        //getChildren().add(gp);
     }
 }

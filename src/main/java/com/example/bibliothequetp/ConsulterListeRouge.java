@@ -33,11 +33,12 @@ public class ConsulterListeRouge extends CycledView {
     ListeRougeController controller = new ListeRougeController();
     ObservableList<ListeRouge> data;
     TableView table = new TableView();
+    Usager u;
 
-    public ConsulterListeRouge(Stage stage) {
+    public ConsulterListeRouge(Stage stage, Usager u) {
         super(stage);
-        createGUI();
-    }
+        this.u  = u;
+        createGUI();  }
 
     public void createGUI() {
 
@@ -64,7 +65,6 @@ public class ConsulterListeRouge extends CycledView {
 
 
         try {
-
             data = controller.listeRouge();
             System.out.println("data LR "+ data);
             table.getColumns().addAll(UsagerCol, titreDateDeb, titreDateFin);
@@ -74,19 +74,18 @@ public class ConsulterListeRouge extends CycledView {
             TextField keyword = new TextField();
             Label search = new Label("Recherche");
 
-
             Button btnSupprimerLR = new Button("retirer de la liste rouge") {
                 @Override
                 public void fire() {
                     controller.supprimerLR(table);
-                    goLRPage(stage);
+                    goLRPage(stage,u);
                 }
             };
 
             Button btnR = new Button("Retour") {
                 @Override
                 public void fire() {
-                    goAdminPage(stage);
+                    goAdminPage(stage,u);
                 }
             };
 
@@ -111,22 +110,16 @@ public class ConsulterListeRouge extends CycledView {
                         return false;
                     }
                     //else if(){}
-
-
                 });
             });
 
             SortedList<ListeRouge> sortedData = new SortedList<>(filteredData);
             sortedData.comparatorProperty().bind(table.comparatorProperty());
-
             table.setItems(sortedData);
             table.setEditable(true);
-
 
         } catch (Exception e) {
             e.printStackTrace();
         }
-
     }
-
 }

@@ -5,6 +5,7 @@ import com.example.bibliothequetp.controller.EmpruntController;
 import com.example.bibliothequetp.controller.MainController;
 import com.example.bibliothequetp.model.Emprunt;
 import com.example.bibliothequetp.model.Livre;
+import com.example.bibliothequetp.model.Usager;
 import javafx.collections.ObservableList;
 import javafx.geometry.Insets;
 import javafx.scene.control.Button;
@@ -23,10 +24,12 @@ public class HistoriqueEmpruntUsager extends CycledView {
     MainController controller = new MainController();
     public EmpruntController empruntController;
     TableView table = new TableView();
+    Usager u;
 
-    public HistoriqueEmpruntUsager(Stage stage) {
+    public HistoriqueEmpruntUsager(Stage stage, Usager u) {
         super(stage);
         this.empruntController = new EmpruntController();
+        this.u = u;
         createGUI();
     }
 
@@ -57,7 +60,7 @@ public class HistoriqueEmpruntUsager extends CycledView {
 
         try {
 
-            data = empruntController.empruntUsager(1);
+            data = empruntController.empruntUsager(u.getIdUsager());
             table.getColumns().addAll(titreCol,titreDateDeb,titreDateFin);
             table.setItems(data);
             table.setEditable(true);
@@ -68,7 +71,7 @@ public class HistoriqueEmpruntUsager extends CycledView {
         Button btnR = new Button("Retour") {
             @Override
             public void fire() {
-                goClientPage(stage);
+                goClientPage(stage, u);
             }
         };
         gp.add(btnR,1,0);

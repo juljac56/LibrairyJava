@@ -29,10 +29,12 @@ public class ConsulterEmprunts extends CycledView {
     MainController controller = new MainController();
     public EmpruntController empruntController = new EmpruntController();
     TableView table = new TableView();
+    Usager u;
 
-    public ConsulterEmprunts(Stage stage) {
+    public ConsulterEmprunts(Stage stage, Usager u) {
         super(stage);
         createGUI();
+        this.u = u;
     }
 
     public void createGUI() {
@@ -91,13 +93,9 @@ public class ConsulterEmprunts extends CycledView {
                     else if(usager.getTitre().toLowerCase().indexOf(searchKeyword) !=-1){
                         return true;
                     }
-
                     else {
-                        return false;
-                    }
+                        return false;}
                     //else if(){}
-
-
                 });
             });
 
@@ -106,21 +104,20 @@ public class ConsulterEmprunts extends CycledView {
 
             table.setItems(sortedData);
             table.setEditable(true);
-
         }
         catch(Exception e){e.printStackTrace();}
 
         Button btnR = new Button("Retour") {
             @Override
             public void fire() {
-                goAdminPage(stage);
+                goAdminPage(stage,u);
             }
         };
 
         Button btnRendreLivre = new Button("Rendre livre");
         btnRendreLivre.setOnAction(actionEvent -> {
            empruntController.rendreLivre(table);
-           goConsulterEmprunt(stage);
+           goConsulterEmprunt(stage,u);
         });
 
         gp.add(btnR,1,0);

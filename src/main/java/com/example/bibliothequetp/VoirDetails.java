@@ -24,13 +24,14 @@ public class VoirDetails extends CycledView {
     int idLivre;
     ObservableList<Usager> data;
     TableView table;
+    Usager u;
 
-    public VoirDetails(Stage stage, int idL) {
+    public VoirDetails(Stage stage, int idL, Usager u) {
         super(stage);
         this.idLivre = idL;
         this.table = new TableView();
-        createGUI();
-    }
+        this.u = u;
+        createGUI();}
 
     public void createGUI() {
 
@@ -62,14 +63,12 @@ public class VoirDetails extends CycledView {
                 e.printStackTrace();
             }
 
-
         Button btnR = new Button("Retour") {
             @Override
             public void fire() {
-                goReserverLivreAPage(stage);
+                goReserverLivreAPage(stage,u);
             }
         };
-
         vbox.getChildren().addAll( btnR);
         getChildren().addAll(vbox);
     }

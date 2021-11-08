@@ -2,6 +2,7 @@ package com.example.bibliothequetp;
 
 import com.example.bibliothequetp.controller.CycledView;
 import com.example.bibliothequetp.controller.MainController;
+import com.example.bibliothequetp.model.Usager;
 import javafx.geometry.Insets;
 import javafx.scene.control.Button;
 import javafx.scene.layout.GridPane;
@@ -14,11 +15,11 @@ import java.util.Vector;
 public class HomeAdmin extends CycledView {
 
     MainController controller = new MainController();
-
-    public HomeAdmin(Stage stage) {
+    Usager u;
+    public HomeAdmin(Stage stage, Usager u) {
         super(stage);
-        createGUI();
-    }
+        this.u = u;
+        createGUI();}
 
     public void createGUI() {
 
@@ -33,24 +34,21 @@ public class HomeAdmin extends CycledView {
         Button btnR = new Button("Retour") {
             @Override
             public void fire() {
-                goHomePage(stage);
-
+                goLoginPage(stage);
             }
         };
 
         Button btn = new Button("Gérer les clients") {
             @Override
             public void fire() {
-                goGererClientPage(stage);
-
+                goGererClientPage(stage, u);
             }
-
         };
 
         Button btnCat = new Button("Gérer les Catégories") {
             @Override
             public void fire() {
-                goCatPage(stage);
+                goCatPage(stage, u);
             }
 
         };
@@ -58,25 +56,23 @@ public class HomeAdmin extends CycledView {
         Button btnLR = new Button("Gérer la liste rouge") {
             @Override
             public void fire() {
-                goLRPage(stage);
+                goLRPage(stage, u);
             }
         };
 
         Button btnLivre = new Button("Gérer les livres") {
             @Override
             public void fire() {
-                goReserverLivreAPage(stage);
+                goReserverLivreAPage(stage, u);
             }
         };
 
         Button btnEmprunt = new Button("Gérer les emprunts") {
             @Override
             public void fire() {
-                goConsulterEmprunt(stage);
+                goConsulterEmprunt(stage, u);
             }
         };
-
-
 
         gp.add(text, 0, 0, 2, 1);
         gp.add(btnR, 0,1);

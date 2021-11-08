@@ -16,11 +16,7 @@ public class MainApplication extends Application {
     public void start(Stage primaryStage) {
 
         StackPane root = new StackPane();
-
-
-
         Button btn = new Button("This is a button");
-
         btn.setOnAction(new EventHandler<ActionEvent>() {
 
             @Override
@@ -34,7 +30,6 @@ public class MainApplication extends Application {
         primaryStage.setScene(scene);
         primaryStage.setTitle("Button Class Example");
         primaryStage.show();
-
         btn.setOnAction( actionEvent -> {
         MainApplication.this.controller.Test();
     });

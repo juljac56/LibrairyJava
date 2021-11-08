@@ -12,6 +12,8 @@ import java.util.*;
 
 public class Usager {
 
+    public String username;
+    public String mdp;
     public Integer idUsager;
     public String nom;
     public String prenom;
@@ -20,42 +22,48 @@ public class Usager {
     public Vector<Vector<String>> historique = new Vector<Vector<String>>();  // historique  = [titre, édition, date début, date fin d'emprunt]
     public int nbFoisListeRouge;
 
-    public Usager(int id) throws SQLException {
-        this.idUsager = id;
+    public Usager(int id){
 
-        Connection conn = DataBase.getConnection();
-        PreparedStatement ps = conn.prepareStatement("select * from  USAGER WHERE `ID USAGER` = ?");
-        ps.setInt(1,id);
+        try {
+            this.idUsager = id;
 
-        ResultSet rs = ps.executeQuery();
+            Connection conn = DataBase.getConnection();
+            PreparedStatement ps = conn.prepareStatement("select * from  USAGER WHERE `ID USAGER` = ?");
+            ps.setInt(1, id);
 
-        while (rs.next()){  // gives idOeuvre and idEditeur
-            this.nom = rs.getString(2);
-            this.prenom = rs.getString(3);
-            this.mail = rs.getString(4);
-            this.categorie = rs.getInt(5);
+            ResultSet rs = ps.executeQuery();
+
+            while (rs.next()) {  // gives idOeuvre and idEditeur
+                this.nom = rs.getString(2);
+                this.prenom = rs.getString(3);
+                this.mail = rs.getString(4);
+                this.categorie = rs.getInt(5);
+                this.username = rs.getString(6);
+                this.mdp = rs.getString(7);
+            }
+
+            PreparedStatement ps1 = conn.prepareStatement("select * from  EMPRUNT WHERE `ID USAGER` = ?");
+            ps1.setInt(1, id);
+
+            ResultSet rs1 = ps1.executeQuery();
+            while (rs1.next()) {
+                Vector<String> ligne = new Vector<String>();
+                Livre livre = new Livre(rs1.getInt(3));
+                ligne.add(livre.titre);
+                ligne.add(livre.editeur);
+                ligne.add(rs1.getString(1));
+                ligne.add(rs1.getString(2));
+                historique.add(ligne);
+            }
+
+            PreparedStatement ps2 = conn.prepareStatement("select COUNT(*) from `ListeRouge/Usager`  WHERE `ID USAGER` = ?");
+            ps2.setInt(1, id);
+
+            ResultSet rs2 = ps2.executeQuery();
+            this.nbFoisListeRouge = rs2.getInt(1);
+            conn.close();
         }
-
-        PreparedStatement ps1 = conn.prepareStatement("select * from  EMPRUNT WHERE `ID USAGER` = ?");
-        ps1.setInt(1,id);
-
-        ResultSet rs1 = ps1.executeQuery();
-        while (rs1.next()){
-            Vector<String> ligne = new Vector<String>();
-            Livre livre = new Livre(rs1.getInt(3));
-            ligne.add(livre.titre);
-            ligne.add(livre.editeur);
-            ligne.add(rs1.getString(1));
-            ligne.add(rs1.getString(2));
-            historique.add(ligne);
-        }
-
-        PreparedStatement ps2 = conn.prepareStatement("select COUNT(*) from `ListeRouge/Usager`  WHERE `ID USAGER` = ?");
-        ps2.setInt(1,id);
-
-        ResultSet rs2 = ps2.executeQuery();
-        this.nbFoisListeRouge = rs2.getInt(1);
-        conn.close();
+        catch (Exception e){System.out.println(e);}
     }
 
     public int supprimer(){  // suppression d'un usager de la BDD
@@ -149,4 +157,6 @@ public class Usager {
     public int getNbFoisListeRouge() {
         return nbFoisListeRouge;
     }
+    public String getMdp() { return mdp; }
+    public String getUsername() {return username;}
 }

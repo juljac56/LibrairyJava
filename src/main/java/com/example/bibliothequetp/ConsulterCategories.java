@@ -30,10 +30,14 @@ public class ConsulterCategories extends CycledView {
     CategorieController controller = new CategorieController();
     ObservableList<Categorie> data;
     TableView table = new TableView();
+    Usager u;
 
-    public ConsulterCategories(Stage stage) {
+    public ConsulterCategories(Stage stage, Usager u) {
         super(stage);
-        createGUI();}
+        createGUI();
+        this.u = u;
+    }
+
 
     public void createGUI() {
         GridPane gp = new GridPane();
@@ -65,21 +69,21 @@ public class ConsulterCategories extends CycledView {
             Button btn = new Button("Modifier");
             btn.setOnAction(actionEvent -> {
                 Vector<Integer> v = controller.debutModifierCat(table);
-                goModifierCat(stage,v.get(0),v.get(1), v.get(2));
+                goModifierCat(stage,v.get(0),v.get(1), v.get(2),u);
             });
 
             // boutton de retour vers la page précédente
             Button btnR = new Button("Retour") {
                 @Override
                 public void fire() {
-                    goAdminPage(stage);
+                    goAdminPage(stage, u);
                 }
             };
             // boutton servant à créer une nouvelle catégorie
             Button btnCreerCat = new Button("Créer une Catégorie") {
                 @Override
                 public void fire() {
-                    goCreerCategoriePage(stage);
+                    goCreerCategoriePage(stage,u);
                 }
             };
 

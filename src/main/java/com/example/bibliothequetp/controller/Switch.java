@@ -17,7 +17,7 @@ public class Switch extends Application {
     @Override
     public void start(Stage primaryStage) {
 
-        try {CycledView h = new home(primaryStage);
+        try {CycledView h = new Login(primaryStage);
         Scene scene = new Scene(h, 600, 550);  // donne les dimensions de la fenetre
 
         primaryStage.setTitle("Logiciel de gestion de Bibliothèque");

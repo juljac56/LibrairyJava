@@ -1,6 +1,7 @@
 package com.example.bibliothequetp;
 
 import com.example.bibliothequetp.controller.*;
+import com.example.bibliothequetp.model.Usager;
 import javafx.geometry.Insets;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
@@ -18,11 +19,13 @@ public class ModifierCat extends CycledView {
     int num;
     int duree;
     int nb;
-    public ModifierCat(Stage stage, int num, int duree, int nb) {
+    Usager u;
+    public ModifierCat(Stage stage, int num, int duree, int nb, Usager u) {
         super(stage);
         this.nb = nb;
         this.duree = duree;
         this.num = num;
+        this.u = u;
         createGUI();
     }
 
@@ -42,7 +45,7 @@ public class ModifierCat extends CycledView {
         Button btnR = new Button("Retour") {
             @Override
             public void fire() {
-                goCatPage(stage);
+                goCatPage(stage,u);
             }
         };
 

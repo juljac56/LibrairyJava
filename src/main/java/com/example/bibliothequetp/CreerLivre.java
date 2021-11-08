@@ -5,6 +5,7 @@ import com.example.bibliothequetp.controller.CycledView;
 import com.example.bibliothequetp.controller.MainController;
 import com.example.bibliothequetp.controller.UsagerController;
 import com.example.bibliothequetp.model.Editeur;
+import com.example.bibliothequetp.model.Usager;
 import javafx.geometry.Insets;
 import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
@@ -23,10 +24,12 @@ public class CreerLivre extends CycledView {
 
     CreationController controller = new CreationController();
     UsagerController controllerUsager = new UsagerController();
+    Usager u;
 
-    public CreerLivre(Stage stage) {
+    public CreerLivre(Stage stage, Usager u) {
         super(stage);
         createGUI();
+        this.u = u;
     }
 
     public void createGUI() {
@@ -47,8 +50,6 @@ public class CreerLivre extends CycledView {
         }
 
         boxEditeur.setEditable(true);
-
-
         Text text = new Text();
         text.setText("Ajouter un livre ");
 
@@ -58,7 +59,7 @@ public class CreerLivre extends CycledView {
         Button btnR = new Button("Retour") {
             @Override
             public void fire() {
-                goReserverLivreAPage(stage);
+                goReserverLivreAPage(stage, u);
             }
         };
 
@@ -143,6 +144,5 @@ public class CreerLivre extends CycledView {
         gp.add(labelISBN,1,11);
 
         getChildren().add(gp);
-
     }
 }

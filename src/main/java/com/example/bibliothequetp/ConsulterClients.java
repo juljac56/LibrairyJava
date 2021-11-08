@@ -37,15 +37,17 @@ public class ConsulterClients extends CycledView {
     CreationController creaController = new CreationController();
     ObservableList<Usager> data;
     TableView table;
+    Usager u;
 
-    public ConsulterClients(Stage stage) {
+    public ConsulterClients(Stage stage, Usager u) {
         super(stage);
         this.table = new TableView();
+        this.u = u;
         createGUI();
     }
 
     public void createGUI() {
-                GridPane gp = new GridPane();
+        GridPane gp = new GridPane();
         gp.setPadding(new Insets(20));
         gp.setHgap(25);
         gp.setVgap(15);
@@ -70,11 +72,16 @@ public class ConsulterClients extends CycledView {
         TableColumn catCol = new TableColumn("Catégorie");
         catCol.setCellValueFactory(new PropertyValueFactory<Usager, Integer>("categorie"));
 
+        TableColumn usernameCol = new TableColumn("Username");
+        usernameCol.setCellValueFactory(new PropertyValueFactory<Usager, String>("username"));
+        TableColumn passCol = new TableColumn("Password");
+        passCol.setCellValueFactory(new PropertyValueFactory<Usager, String>("mdp"));
+
         UsagerCol.getColumns().addAll(prenomCol, nomCol);
 
         try {
             data = controller.banqueUsagers();
-            table.getColumns().addAll(UsagerCol, emailCol, listeRCol, catCol);
+            table.getColumns().addAll(UsagerCol, emailCol, listeRCol, catCol,usernameCol, passCol);
 
             final VBox vbox = new VBox();
             vbox.setSpacing(5);
@@ -89,14 +96,14 @@ public class ConsulterClients extends CycledView {
             Button btnR = new Button("Retour") {
                 @Override
                 public void fire() {
-                    goAdminPage(stage);
+                    goAdminPage(stage,u );
                 }
             };
 
             Button btnCreerUsage = new Button("Créer un Client") {
                 @Override
                 public void fire() {
-                    goCreerClientPage(stage);
+                    goCreerClientPage(stage, u);
                 }
             };
 
@@ -104,21 +111,21 @@ public class ConsulterClients extends CycledView {
             btnLR.setOnAction(actionEvent -> {
                 System.out.println("Appuie");
                 Integer idUs = LRController.debutAjoutLR(table);
-                goAjouterLR(stage,idUs);
+                goAjouterLR(stage,idUs, u);
             });
 
             Button btnSupprimerClient = new Button("Supprimer Client") {
                 @Override
                 public void fire() {
                     creaController.supprimerClient(table);
-                    goGererClientPage(stage);
+                    goGererClientPage(stage, u);
                 }
             };
 
             Button btnModifier = new Button("Modifier");
             btnModifier.setOnAction(actionEvent -> {
                 Vector<Object> v = controller.debutModifierClient(table);
-                goModifierClient(stage,(int) v.get(0),(String) v.get(1), (String) v.get(2), (int) v.get(3), (String) v.get(4));
+                goModifierClient(stage,(int) v.get(0),(String) v.get(1), (String) v.get(2), (int) v.get(3), (String) v.get(4), u);
             });
 
             vbox.setPadding(new Insets(10, 0, 0, 10));
@@ -142,8 +149,6 @@ public class ConsulterClients extends CycledView {
                         return false;
                     }
                     //else if(){}
-
-
                 });
             });
 

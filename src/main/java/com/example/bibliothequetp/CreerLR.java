@@ -1,6 +1,7 @@
 package com.example.bibliothequetp;
 
 import com.example.bibliothequetp.controller.*;
+import com.example.bibliothequetp.model.Usager;
 import javafx.geometry.Insets;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
@@ -15,10 +16,12 @@ public class CreerLR extends CycledView {
 
     ListeRougeController controller = new ListeRougeController();
     int idUsager;
+    Usager u;
 
-    public CreerLR(Stage stage, int id) {
+    public CreerLR(Stage stage, int id, Usager u) {
         super(stage);
         this.idUsager = Integer.valueOf(id);
+        this.u = u;
         createGUI();
     }
 
@@ -38,7 +41,7 @@ public class CreerLR extends CycledView {
         Button btnR = new Button("Retour") {
             @Override
             public void fire() {
-                goGererClientPage(stage);
+                goGererClientPage(stage, u);
             }
         };
 

@@ -4,6 +4,7 @@ import com.example.bibliothequetp.controller.CreationController;
 import com.example.bibliothequetp.controller.CycledView;
 import com.example.bibliothequetp.controller.MainController;
 import com.example.bibliothequetp.controller.UsagerController;
+import com.example.bibliothequetp.model.Usager;
 import javafx.geometry.Insets;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
@@ -18,9 +19,11 @@ public class Creercat extends CycledView {
 
     CreationController controller = new CreationController();
     UsagerController controllerUsager = new UsagerController();
+    Usager u;
 
-    public Creercat(Stage stage) {
+    public Creercat(Stage stage, Usager u) {
         super(stage);
+        this.u = u;
         createGUI();
     }
 
@@ -40,7 +43,7 @@ public class Creercat extends CycledView {
         Button btnR = new Button("Retour") {
             @Override
             public void fire() {
-                goCatPage(stage);
+                goCatPage(stage, u);
             }
         };
 

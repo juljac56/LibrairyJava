@@ -1,6 +1,7 @@
 package com.example.bibliothequetp;
 
 import com.example.bibliothequetp.controller.*;
+import com.example.bibliothequetp.model.Usager;
 import javafx.geometry.Insets;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
@@ -24,11 +25,13 @@ public class ModifierLivre extends CycledView {
     int idOeuvre;
     int annee;
     int id;
-    public ModifierLivre(Stage stage, int id, String titre,int annee , String mot1, String mot2 , String mot3, String mot4, String mot5, int idOeuvre) {
+    Usager u;
+    public ModifierLivre(Stage stage, int id, String titre,int annee , String mot1, String mot2 , String mot3, String mot4, String mot5, int idOeuvre, Usager u) {
         super(stage);
         this.id = id;
         this.annee =annee;
         this.mot1 = mot1;
+        this.u = u;
         this.mot2 =mot2;
         this.mot3 = mot3;
         this.mot4 = mot4;
@@ -54,7 +57,7 @@ public class ModifierLivre extends CycledView {
         Button btnR = new Button("Retour") {
             @Override
             public void fire() {
-                goReserverLivreAPage(stage);
+                goReserverLivreAPage(stage, u);
             }
         };
 

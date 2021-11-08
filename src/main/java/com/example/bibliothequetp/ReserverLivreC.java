@@ -4,6 +4,7 @@ import com.example.bibliothequetp.controller.CycledView;
 import com.example.bibliothequetp.controller.MainController;
 import com.example.bibliothequetp.model.DataBase;
 import com.example.bibliothequetp.model.Livre;
+import com.example.bibliothequetp.model.Usager;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.collections.transformation.FilteredList;
@@ -35,9 +36,11 @@ public class ReserverLivreC extends CycledView {
         MainController controller = new MainController();
      ObservableList<Livre> data;
      TableView table = new TableView();
+     Usager u;
 
-    public ReserverLivreC(Stage stage) {
+    public ReserverLivreC(Stage stage, Usager u) {
         super(stage);
+        this.u =u;
         createGUI();
     }
 
@@ -67,9 +70,7 @@ public class ReserverLivreC extends CycledView {
         auteurCol.getColumns().addAll(prenomAuteur, nomAuteur);
 
         try {
-
             data = getLivreList();
-
         table.getColumns().addAll(titreCol, anneeCol, auteurCol, editeurCol);
 
         final VBox vbox = new VBox();
@@ -85,18 +86,14 @@ public class ReserverLivreC extends CycledView {
             Button btnR = new Button("Retour") {
                 @Override
                 public void fire() {
-                    goClientPage(stage);
+                    goClientPage(stage,u);
                 }
             };
 
         vbox.setPadding(new Insets(10, 0, 0, 10));
         vbox.getChildren().addAll(label, table, keyword, btn, btnR);
-
         getChildren().addAll(vbox);
-
         FilteredList<Livre> filteredData = new FilteredList<Livre>(data, b -> true);
-
-
         keyword.textProperty().addListener((observable, oldValue, newValue) -> {
             filteredData.setPredicate(livre -> {
                 if (newValue.isBlank() || newValue.isBlank() || newValue == null) {
@@ -110,8 +107,6 @@ public class ReserverLivreC extends CycledView {
                     return false;
                 }
                 //else if(){}
-
-
             });
         });
 
@@ -120,13 +115,9 @@ public class ReserverLivreC extends CycledView {
 
             table.setItems(sortedData);
             table.setEditable(true);
-
-
     }
-
         catch (Exception e) {
             e.printStackTrace();
-
     }}
 
     public ObservableList<Livre> getLivreList() {
@@ -150,7 +141,6 @@ public class ReserverLivreC extends CycledView {
                 ligne.add(livre.editeur);
                 list.add(livre);
             }
-
             conn.close();
         }
         catch(Exception e){System.out.println(e);}

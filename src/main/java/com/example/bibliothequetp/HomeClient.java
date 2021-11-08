@@ -5,6 +5,7 @@ import com.example.bibliothequetp.controller.EmpruntController;
 import com.example.bibliothequetp.controller.MainController;
 import com.example.bibliothequetp.model.Emprunt;
 import com.example.bibliothequetp.model.Livre;
+import com.example.bibliothequetp.model.Usager;
 import javafx.collections.ObservableList;
 import javafx.geometry.Insets;
 import javafx.scene.control.Button;
@@ -17,21 +18,20 @@ import javafx.scene.layout.VBox;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
 
-
 public class HomeClient extends CycledView {
 
     ObservableList<Emprunt> data;
     MainController controller = new MainController();
     public EmpruntController empruntController;
     TableView table = new TableView();
+    Usager u;
 
-    public HomeClient(Stage stage) {
+    public HomeClient(Stage stage, Usager u) {
         super(stage);
+        this.u = u;
         this.empruntController = new EmpruntController();
-        this.retour = new home(stage);
-
-        createGUI();
-    }
+        this.retour = new home(stage, u);
+        createGUI();}
 
     public void createGUI() {
 
@@ -45,67 +45,52 @@ public class HomeClient extends CycledView {
 
         gp.add(text, 0, 0, 2, 1);
 
-
         Button btn = new Button("Réserver un livre") {
             @Override
-            public void fire() {goReserverLivreC(stage);            }
-
+            public void fire() {goReserverLivreC(stage,u);}
         };
 
         Button btnR = new Button("Retour") {
             @Override
             public void fire() {
-                goHomePage(stage);
-            }
-        };
+                goLoginPage(stage);
+            }};
 
         Button btnHistoriqueEmprunt = new Button("Historique de vos Emprunts") {
             @Override
-            public void fire() {goHistoriqueEmpruntUsager(stage);
+            public void fire() {goHistoriqueEmpruntUsager(stage, u);
             }
-
         };
 
         btn.getStyleClass().add("btn");
-
         gp.add(btn, 0, 0);
         gp.add(btnHistoriqueEmprunt, 1, 0);
         gp.add(btnR, 2,0);
 
         getChildren().add(gp);
 
-
-        //getChildren().add(btn);
-
-        // Creation de la table des emprunts en cours d'un usager
-
         TableColumn titreCol = new TableColumn<Livre, String>("titre");
         titreCol.setCellValueFactory(new PropertyValueFactory<Livre, String>("titre"));
         TableColumn titreDateDeb = new TableColumn<Livre, String>("Debut Emprunt");
         titreDateDeb.setCellValueFactory(new PropertyValueFactory<Livre, String>("dateDebut"));
-        TableColumn titreDateFin = new TableColumn<Livre, String>("A rendre pour ");
-        titreDateFin.setCellValueFactory(new PropertyValueFactory<Livre, String>("dateFin"));
-        //titreCol.setCellValueFactory(cellData -> cellData.getValue().dateProperty());
+        TableColumn titreDateFin = new TableColumn<Emprunt, String>("A rendre pour ");
+        titreDateFin.setCellValueFactory(new PropertyValueFactory<Emprunt, String>("rendrepour"));
 
         try {
-
-            data = empruntController.empruntUsagerActuel(1);
+            data = empruntController.empruntUsagerActuel(u.getIdUsager());
             table.getColumns().addAll(titreCol,titreDateDeb,titreDateFin);
             table.setItems(data);
             table.setEditable(true);
-
         }
         catch(Exception e){e.printStackTrace();}
 
         final VBox vbox = new VBox();
         vbox.setSpacing(5);
-
         vbox.setPadding(new Insets(10, 0, 0, 10));
         vbox.getChildren().addAll(gp, table);
 
         getChildren().addAll(vbox);
     }
-
 }
 
 

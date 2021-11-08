@@ -6,6 +6,7 @@ import com.example.bibliothequetp.controller.EmpruntController;
 import com.example.bibliothequetp.controller.MainController;
 import com.example.bibliothequetp.model.DataBase;
 import com.example.bibliothequetp.model.Livre;
+import com.example.bibliothequetp.model.Usager;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.collections.transformation.FilteredList;
@@ -40,11 +41,13 @@ public class ReserverLivreA extends CycledView {
 
     ObservableList<Livre> data;
     TableView table = new TableView();
+    Usager u;
 
-    public ReserverLivreA(Stage stage) {
+    public ReserverLivreA(Stage stage, Usager u) {
         super(stage);
-
+        this.u = u;
         createGUI();
+
     }
 
     public void createGUI() {
@@ -93,7 +96,7 @@ public class ReserverLivreA extends CycledView {
             Button btnR = new Button("Retour") {
                 @Override
                 public void fire() {
-                    goAdminPage(stage);
+                    goAdminPage(stage,u);
                 }
             };
 
@@ -101,33 +104,33 @@ public class ReserverLivreA extends CycledView {
                 @Override
                 public void fire() {
                     creaController.supprimerlivre(table);
-                    goReserverLivreAPage(stage);
+                    goReserverLivreAPage(stage,u);
                 }
             };
 
             Button btnCreerLivre = new Button("Créer Livre") {
                 @Override
                 public void fire() {
-                    goCreerLivrePage(stage);
+                    goCreerLivrePage(stage,u);
                 }
             };
 
             Button btnCreerEmprunt = new Button("Emprunter");
             btnCreerEmprunt.setOnAction(actionEvent -> {
                 Integer idL = empruntController.debutCreerEmprunt(table);
-                goCreerEmprunt(stage, idL);
+                goCreerEmprunt(stage, idL,u);
             });
 
             Button btnModifier = new Button("Modifier");
             btnModifier.setOnAction(actionEvent -> {
                 Vector<Object> v = empruntController.debutModifierLivre(table);
-                goModifierLivre(stage,(int) v.get(0),(String) v.get(1), (int) v.get(2), (String) v.get(3), (String) v.get(4), (String) v.get(5), (String) v.get(6), (String) v.get(7), (int) v.get(8));
+                goModifierLivre(stage,(int) v.get(0),(String) v.get(1), (int) v.get(2), (String) v.get(3), (String) v.get(4), (String) v.get(5), (String) v.get(6), (String) v.get(7), (int) v.get(8),u);
             });
 
             Button btnDetailLivre = new Button("Details");
             btnDetailLivre.setOnAction(actionEvent -> {
                 Integer idL = empruntController.debutCreerEmprunt(table);
-                goVoirDetails(stage, idL);
+                goVoirDetails(stage, idL,u);
             });
 
             vbox.setPadding(new Insets(10, 0, 0, 10));

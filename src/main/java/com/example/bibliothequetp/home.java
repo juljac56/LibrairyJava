@@ -2,27 +2,23 @@ package com.example.bibliothequetp;
 
 import com.example.bibliothequetp.controller.CycledView;
 import com.example.bibliothequetp.controller.MainController;
-import com.example.bibliothequetp.controller.SwitchController;
-import javafx.application.Application;
+import com.example.bibliothequetp.model.Usager;
 import javafx.geometry.Insets;
-import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.layout.GridPane;
-import javafx.scene.layout.StackPane;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
-
-import java.sql.SQLException;
 
 
 public class home extends CycledView {
 
     MainController controller = new MainController();
+    Usager u ;
 
-    public home( Stage stage) {
+    public home( Stage stage, Usager u) {
         super(stage);
-        createGUI();
-    }
+        this.u = u;
+        createGUI();}
 
     public void createGUI() {
 
@@ -36,11 +32,10 @@ public class home extends CycledView {
 
         gp.add(text, 0, 0, 2, 1);
 
-
         Button btn = new Button("Connexion Admin") {
             @Override
             public void fire() {
-                goAdminPage(stage);
+                goAdminPage(stage, u);
             }
         };
 
@@ -50,17 +45,11 @@ public class home extends CycledView {
         Button btn1 = new Button("Connexion Client"){
             @Override
             public void fire() {
-                goClientPage(stage);
-            }
-        } ;
+                goClientPage(stage, u);
+            }};
         btn1.getStyleClass().add("btn");
-
         gp.add(btn1,1,1);
-
         getChildren().add(gp);
-        //getChildren().add(btn);
-
-
     }
 }
 

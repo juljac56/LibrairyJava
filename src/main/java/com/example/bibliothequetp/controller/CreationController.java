@@ -17,15 +17,17 @@ import java.util.Vector;
 
 public class CreationController {
 
-    public int creationClient(String nom, String prenom, String mail, Integer idCat) {  // sert à ajouter de nouveaux clients dans la BDD
+    public int creationClient(String nom, String prenom, String mail, String username, String password, Integer idCat) {  // sert à ajouter de nouveaux clients dans la BDD
         int status = 0;
         try {
             Connection conn = DataBase.getConnection();
-            PreparedStatement ps = conn.prepareStatement("INSERT INTO USAGER (NOM, PRENOM, MAIL , `ID CATEGORIE`) VALUES(?,?,?,?)");
+            PreparedStatement ps = conn.prepareStatement("INSERT INTO USAGER (NOM, PRENOM, MAIL , `ID CATEGORIE`, USERNAME, PASSWORD) VALUES(?,?,?,?,?,?)");
             ps.setString(1, nom);
             ps.setString(2, prenom);
             ps.setString(3, mail);
             ps.setInt(4, idCat);
+            ps.setString(5, username);
+            ps.setString(6, password);
             status = ps.executeUpdate();
             conn.close();
         } catch (Exception e) {
@@ -73,7 +75,7 @@ public class CreationController {
         try {
             Usager usager = new Usager(idUsager);
             usager.supprimer();
-        } catch (SQLException e) {
+        } catch (Exception e) {
             e.printStackTrace();
         }}
 }
